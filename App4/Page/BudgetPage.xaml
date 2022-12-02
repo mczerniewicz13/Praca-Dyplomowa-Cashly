@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App4.Page.BudgetPage"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+             NavigationPage.HasNavigationBar="False"
+             >
+    
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Text="USER" VerticalTextAlignment="Center"
+                       HorizontalTextAlignment="Center"/>
+                
+                <Label x:Name="BudgetTitle" Grid.Row="1" Text="Budget" 
+                       VerticalTextAlignment="Center"
+                       FontAttributes="Bold"
+                       FontSize="Title"
+                       BackgroundColor="red"/>
+
+                <ScrollView BackgroundColor="Green" Grid.Row="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Text="Saldo" Grid.Row="0"/>
+                        <TableView Grid.Row="1" BackgroundColor="Blue">
+                            
+                        </TableView>
+                    </Grid>
+                </ScrollView>
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

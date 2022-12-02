@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App4.Page.LoginPage"
+             Title="Login">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame VerticalOptions="CenterAndExpand">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0"  Text="Login" 
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontSize="Title" 
+                           FontAttributes="Bold"/>
+                    <Entry Grid.Row="1" Placeholder="login" Text="{Binding Username}"/>
+                    <Entry Grid.Row="2" Placeholder="password" Text="{Binding Password}" IsPassword="True"/>
+                    <Button Grid.Row="3" Text="Log in" Command="{Binding LoginCommand}"/>
+                    <Grid Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Forgot Password?"/>
+                        <Label Grid.Column="1" Text="Not a member? Sign up!" HorizontalTextAlignment="End"/>
+
+                    </Grid>
+                </Grid>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
