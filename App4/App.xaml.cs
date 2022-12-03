@@ -5,13 +5,16 @@ using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Syncfusion.Licensing;
 
 namespace App4
 {
     public partial class App : Application
     {
+        
         public App()
         {
+            SyncfusionLicenseProvider.RegisterLicense("NzcyNjU3QDMyMzAyZTMzMmUzMG1UVkVNV2xKekVpTlNGTTVzV0ZXSlVEdEE0cDBJZGNIZWZSY3lKRzlHQzQ9");
             InitializeComponent();
 
         }

@@ -11,11 +11,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
+    <PackageReference Include="FirebaseDatabase.net" Version="4.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Syncfusion.Licensing" Version="20.3.0.59" />
+    <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="20.3.0.59" />
     <PackageReference Include="Syncfusion.Xamarin.Compression" Version="20.3.0.59" />
     <PackageReference Include="Syncfusion.Xamarin.Core" Version="20.3.0.59" />
+    <PackageReference Include="Syncfusion.Xamarin.DataSource" Version="20.3.0.59" />
     <PackageReference Include="Syncfusion.Xamarin.GridCommon" Version="20.3.0.59" />
+    <PackageReference Include="Syncfusion.Xamarin.SfChart" Version="20.3.0.59" />
+    <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="20.3.0.59" />
+    <PackageReference Include="Syncfusion.Xamarin.SfListView" Version="20.3.0.59" />
+    <PackageReference Include="Syncfusion.Xamarin.SfNumericTextBox" Version="20.3.0.59" />
+    <PackageReference Include="Syncfusion.Xamarin.SfTabView" Version="20.3.0.59" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
   </ItemGroup>
@@ -39,12 +48,11 @@
     <EmbeddedResource Update="Page\SettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Page\EditSpendingPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Page\SummaryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Page\NewFolder\" />
   </ItemGroup>
 </Project>
