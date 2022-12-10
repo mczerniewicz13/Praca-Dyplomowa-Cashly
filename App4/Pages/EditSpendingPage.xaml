@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App4.Pages.EditSpendingPage"
+             xmlns:numberInput="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms" xmlns:pagemodels="clr-namespace:App4.PageModels" x:DataType="pagemodels:EditSpendingPageModel"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Content>
+  
+      
+        <StackLayout>
+            <Frame VerticalOptions="CenterAndExpand">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Text="Edit Spending"
+                           HorizontalOptions="Center"
+                           FontSize="Title"/>
+                    <Entry x:Name="SpendingTitle" Grid.Row="1" Placeholder="Title" Text="{Binding SpendingTitle}"/>
+                    <Editor x:Name="SpendingDescription" Grid.Row="2" Placeholder="Description" Text="{Binding SpendingDescription}"/>
+                    <numberInput:SfNumericTextBox x:Name="SpendingValue" Grid.Row="3" Value="{Binding SpendingValue}"/>
+                    <DatePicker x:Name="SpendingDate" Grid.Row="4" Format="dd/MM/yyyy" Date="{Binding SpendingDate}"/>
+                    <Grid Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" Text="Delete" 
+                                Command="{Binding DeleteCommand}" BackgroundColor="LightPink"/>
+                        <Button Grid.Column="1" Text="Cancel" 
+                                Command="{Binding CancelCommand}" BackgroundColor="LightBlue"/>
+                    </Grid>
+                    <Button Grid.Row="6" Text="Edit" 
+                                Command="{Binding EditCommand}" BackgroundColor="LightGreen"/>
+
+                </Grid>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

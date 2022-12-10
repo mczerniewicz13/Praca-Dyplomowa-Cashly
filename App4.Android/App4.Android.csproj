@@ -54,7 +54,19 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FirebaseDatabase.net">
+      <Version>4.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="FreshMvvm">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.Platforms">
+      <Version>7.0.0</Version>
+    </PackageReference>
     <PackageReference Include="Syncfusion.Licensing">
+      <Version>20.3.0.59</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.Buttons">
       <Version>20.3.0.59</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.Compression">
@@ -63,7 +75,25 @@
     <PackageReference Include="Syncfusion.Xamarin.Core">
       <Version>20.3.0.59</Version>
     </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.DataSource">
+      <Version>20.3.0.59</Version>
+    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.GridCommon">
+      <Version>20.3.0.59</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfChart">
+      <Version>20.3.0.59</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfComboBox">
+      <Version>20.3.0.59</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfListView">
+      <Version>20.3.0.59</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfNumericTextBox">
+      <Version>20.3.0.59</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfTabView">
       <Version>20.3.0.59</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Core">
@@ -114,13 +144,34 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\drawable\" />
+    <AndroidResource Include="Resources\drawable\group.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\App4\App4.csproj">
       <Project>{C3FCDE8D-DC28-4C8F-B852-32E8DBF10647}</Project>
       <Name>App4</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\dollar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\pencil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\trash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\payment.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\architectural.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\chart.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
