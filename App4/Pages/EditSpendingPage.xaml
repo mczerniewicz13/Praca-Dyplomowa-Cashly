@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="App4.Page.EditSpendingPage"
-             xmlns:numberInput="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
+             x:Class="App4.Pages.EditSpendingPage"
+             xmlns:numberInput="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms" xmlns:pagemodels="clr-namespace:App4.PageModels" x:DataType="pagemodels:EditSpendingPageModel"
              NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Content>
   
-     
+      
         <StackLayout>
             <Frame VerticalOptions="CenterAndExpand">
                 <Grid>
@@ -15,6 +15,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -31,10 +32,14 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Text="Edit" Clicked="Edit_Clicked" BackgroundColor="LightGreen"/>
-                        <Button Grid.Column="1" Text="Cancel" Clicked="Cancel_Clicked" BackgroundColor="LightPink"/>
-                    </Grid>
 
+                        <Button Grid.Column="0" Text="Delete" 
+                                Command="{Binding DeleteCommand}" BackgroundColor="LightPink"/>
+                        <Button Grid.Column="1" Text="Cancel" 
+                                Command="{Binding CancelCommand}" BackgroundColor="LightBlue"/>
+                    </Grid>
+                    <Button Grid.Row="6" Text="Edit" 
+                                Command="{Binding EditCommand}" BackgroundColor="LightGreen"/>
 
                 </Grid>
             </Frame>

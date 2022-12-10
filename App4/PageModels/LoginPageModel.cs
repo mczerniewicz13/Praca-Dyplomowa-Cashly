@@ -6,41 +6,27 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using FreshMvvm;
 
 namespace App4.PageModels
 {
-    public class LoginPageModel : PageModelBase
+    public class LoginPageModel : FreshBasePageModel
     {
 
         private ICommand signInCommand;
         private INavigationService navServ;
         private IAccountService accServ;
         private ICommand loginCommand;
-        public ICommand LoginCommand
-        {
-            get => loginCommand;
-            set => SetProperty(ref loginCommand, value);
-        }
+        public ICommand LoginCommand { get; set; }
+        
 
         private string username;
-        public string Username
-        {
-            get => username;
-            set => SetProperty(ref username, value);
-        }
+        public string Username { get; set; }
 
         private string password;
-        public string Password
-        {
-            get => password;
-            set => SetProperty(ref password, value);
-        }
+        public string Password { get; set; }
 
-        public ICommand SignInCommand
-        {
-            get => signInCommand;
-            set => SetProperty(ref signInCommand, value);
-        }
+        public ICommand SignInCommand { get; set; }
 
         public LoginPageModel(INavigationService navigationService, IAccountService accountService)
         {

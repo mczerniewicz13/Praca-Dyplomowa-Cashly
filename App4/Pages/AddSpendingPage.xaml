@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="App4.Page.AddSpendingPage"
+             x:Class="App4.Pages.AddSpendingPage"
              xmlns:numberInput="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
              NavigationPage.HasNavigationBar="False">
 
@@ -9,7 +9,7 @@
         
         <StackLayout>
             <Frame VerticalOptions="CenterAndExpand">
-                <Grid>
+                <Grid> 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -21,17 +21,17 @@
                     <Label Grid.Row="0" Text="Add Spending"
                            HorizontalOptions="Center"
                            FontSize="Title"/>
-                    <Entry x:Name="SpendingTitle" Grid.Row="1" Placeholder="Title" Text="{Binding SpendingTitle}"/>
-                    <Editor x:Name="SpendingDescription" Grid.Row="2" Placeholder="Description" Text="{Binding SpendingDescription}"/>
-                    <numberInput:SfNumericTextBox x:Name="SpendingValue" Grid.Row="3" Value="{Binding SpendingValue}"/>
-                    <DatePicker x:Name="SpendingDate" Grid.Row="4" Format="dd/MM/yyyy" Date="{Binding SpendingDate}"/>
+                    <Entry Grid.Row="1" Placeholder="Title" Text="{Binding SpendingTitle}"/>
+                    <Editor Grid.Row="2" Placeholder="Description" Text="{Binding SpendingDescription}"/>
+                    <numberInput:SfNumericTextBox  Grid.Row="3" Value="{Binding SpendingValue}"/>
+                    <DatePicker Grid.Row="4" Format="dd/MM/yyyy" Date="{Binding SpendingDate}"/>
                     <Grid Grid.Row="5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Text="Add" Clicked="Add_Clicked" BackgroundColor="LightGreen"/>
-                        <Button Grid.Column="1" Text="Cancel" Clicked="Cancel_Clicked" BackgroundColor="LightPink"/>
+                        <Button Grid.Column="0" Text="Add" Command="{Binding AddCommand}" BackgroundColor="LightGreen"/>
+                        <Button Grid.Column="1" Text="Cancel" Command="{Binding CancelCommand}" BackgroundColor="LightPink"/>
                     </Grid>
 
 

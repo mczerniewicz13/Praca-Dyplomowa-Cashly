@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace App4.Page
+namespace App4.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class BudgetPage : ContentPage
+    public partial class LoginPage : ContentPage
     {
-        public BudgetPage()
+        public LoginPage()
         {
             InitializeComponent();
         }

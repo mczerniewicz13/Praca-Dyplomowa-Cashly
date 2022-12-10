@@ -4,24 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-
+using FreshMvvm;
 namespace App4.PageModels
 {
-    public class BudgetPageModel : PageModelBase
+    public class BudgetPageModel : FreshBasePageModel
     {
-        private IAccountService accountService;
-        public BudgetPageModel(IAccountService accountService)
+        
+        public BudgetPageModel()
         {
-            this.accountService = accountService;
+            
         }
 
-        public override async Task InitializeAsync(object navigationData)
-        {
-            var user = await accountService.GetUserAsync();
-            if(user != null)
-            {
-
-            }
-        }
+        
     }
 }

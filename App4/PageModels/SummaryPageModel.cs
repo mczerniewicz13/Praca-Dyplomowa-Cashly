@@ -9,27 +9,89 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using FreshMvvm;
+using System.Collections.ObjectModel;
+using System.Linq;
+using App4.Pages;
+using System.Runtime.CompilerServices;
+using System.ComponentModel;
 
 namespace App4.PageModels
 {
-    public class SummaryPageModel : PageModelBase
+    public class SummaryPageModel : FreshBasePageModel, INotifyPropertyChanged
     {
-        private ICommand moveToAdd;
-        private INavigationService navServ;
+
         FirebaseClient firebaseClient = new FirebaseClient("https://cashly-9d2ac-default-rtdb.europe-west1.firebasedatabase.app/");
+      
 
-        public ICommand MoveToAdd
+        public IDisposable collection { get; set; }
+        public ObservableCollection<Spendings> DatabaseItems { get; set; } = new
+            ObservableCollection<Spendings>();
+        public Spendings SelectedItem { get; set; }
+        public double Budget { get; set; } = 1000;
+
+        public string Title { get; set; }
+        public string Value { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public Command GoToAddPageCommand { get; set; }
+        public Command SelectItemCommand { get; set; }
+
+
+        public SummaryPageModel()
         {
-            get=> moveToAdd;
-            set =>SetProperty(ref moveToAdd, value);
+            GoToAddPageCommand = new Command(() => OpenAddPageAsync());
+            SelectItemCommand = new Command( () =>  OnSelectionAsync());
+            /*Refresh();*/
+            DatabaseItems.Clear();
+            collection = firebaseClient
+                .Child("Spendings")
+                .AsObservable<Spendings>()
+                .Subscribe((dbevent) =>
+                {
+                    if (dbevent.Object != null)
+                    {
+                        DatabaseItems.Add(dbevent.Object);
+                    }
+                });
+
         }
-        public SummaryPageModel(INavigationService navigationService)
+
+        public void OnPropertyChanged(string name)=>
+            PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(name));
+
+        public async void OpenAddPageAsync()
         {
-            navServ = navigationService;
-            /*            MoveToAdd = new Command(OnAddBttnClicked);*/
-
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddSpendingPage());
+            
+            Refresh();
         }
 
-       
+        private async void OnSelectionAsync()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new EditSpendingPage(SelectedItem));
+
+            Refresh();
+        }    
+        public void Refresh()
+        {
+            DatabaseItems.Clear();
+            OnPropertyChanged(nameof(DatabaseItems));
+            collection.Dispose();
+            collection = firebaseClient
+                .Child("Spendings")
+                .AsObservable<Spendings>()
+                .Subscribe((dbevent) =>
+                {
+                    if (dbevent.Object != null)
+                    {
+                        DatabaseItems.Add(dbevent.Object);
+                        
+                    }
+                });
+            OnPropertyChanged(nameof(DatabaseItems));
+        }
+
     }
 }

@@ -2,29 +2,29 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             x:Class="App4.Page.DashboardPage"
-            xmlns:pages ="clr-namespace:App4.Page"
+             x:Class="App4.Pages.DashboardPage"
+            xmlns:pages ="clr-namespace:App4.Pages"
             Title ="Cashly"
             android:TabbedPage.ToolbarPlacement="Bottom"
             NavigationPage.HasNavigationBar="False">
     <TabbedPage.Children >
- 
-        <NavigationPage Title="Budget">
+  
+        <NavigationPage Title="Budget" IconImageSource="dollar.png">
             <x:Arguments>
                 <pages:BudgetPage/>
             </x:Arguments>
         </NavigationPage>
-        <NavigationPage Title="Summary">
+        <NavigationPage Title="Saldo" IconImageSource="payment.png">
             <x:Arguments>
                 <pages:SummaryPage/>
             </x:Arguments>
         </NavigationPage>
-        <NavigationPage Title="Profile">
+        <NavigationPage Title="Profile" IconImageSource="group.png">
             <x:Arguments>
                 <pages:ProfilePage/>
             </x:Arguments>
         </NavigationPage>
-        <NavigationPage Title="Settings">
+        <NavigationPage Title="Settings" IconImageSource="settings.png">
             <x:Arguments>
                 <pages:SettingsPage/>
             </x:Arguments>

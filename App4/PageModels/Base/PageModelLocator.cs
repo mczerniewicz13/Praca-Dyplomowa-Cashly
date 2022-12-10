@@ -1,4 +1,4 @@
-﻿using App4.Page;
+﻿using App4.Pages;
 using App4.Services.Account;
 using App4.Services.Navigation;
 using System;
@@ -20,13 +20,13 @@ namespace App4.PageModels.Base
             container = new TinyIoCContainer();
 
             //Register pages and pagemodels
-            Register<LoginPageModel, LoginPage>();
-            Register<DashboardPageModel,DashboardPage>();
+            //Register<LoginPageModel, LoginPage>();
+            /*Register<DashboardPageModel,DashboardPage>();
             Register<ProfilePageModel, ProfilePage>();
             Register<SettingsPageModel,SettingsPage>();
             Register<SummaryPageModel, SummaryPage>();
-            Register<BudgetPageModel, BudgetPage>();
-            Register<AddSpendingPageModel, AddSpendingPage>();
+            Register<BudgetPageModel, BudgetPage>();*/
+            //Register<AddSpendingPageModel, AddSpendingPage>();
 
             //Register services (services are registered as singletons by default)
             container.Register<INavigationService, NavigationService>();

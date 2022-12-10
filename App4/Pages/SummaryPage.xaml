@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="App4.Page.SummaryPage"
-             NavigationPage.HasNavigationBar="False">
-    
-    <ContentPage.Content>
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="App4.Pages.SummaryPage"
+             NavigationPage.HasNavigationBar="False"
+             >
 
+    <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="75"/>
+                <RowDefinition Height="75"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
@@ -28,15 +30,23 @@
                             TextColor="Black"
                             FontAttributes="Bold"
                             FontSize="Title"
-                            Clicked="NavigateAddBttn"/>
+                            Command="{Binding GoToAddPageCommand}"/>
 
             </Grid>
-            <ScrollView Grid.Row="1">
+
+            <Label Grid.Row="1" Text="{Binding Budget}"
+                   FontSize="Title"
+                   FontAttributes="Bold"
+                   TextColor="Black"
+                   />
+
+            <ScrollView Grid.Row="2">
                 <CollectionView  ItemsSource="{Binding DatabaseItems}" 
                                  SelectionMode="Single"
-                                 SelectionChanged="OnSelection"
-                                 SelectedItem="{Binding SelectedItem}">
-                    
+                                 SelectionChangedCommand="{Binding SelectItemCommand}"
+                                 SelectedItem="{Binding SelectedItem}"
+                                 x:Name="SpendingColView">
+
                     <CollectionView.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -61,7 +71,7 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout>
-                                <Grid Margin="0,10,0,0">
+                                <Grid Margin="0,10,0,0" RowSpacing="8">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="2*"/>
                                         <ColumnDefinition Width="2*"/>
@@ -75,10 +85,7 @@
                                     <Label Grid.Column="1" Text="{Binding Value}"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"/>
-                                    
-
                                 </Grid>
-
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
