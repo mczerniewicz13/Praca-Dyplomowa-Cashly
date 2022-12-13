@@ -4,6 +4,8 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using Firebase;
+using AndroidX.AppCompat.App;
 
 namespace App4.Droid
 {
@@ -14,6 +16,8 @@ namespace App4.Droid
         {
             base.OnCreate(savedInstanceState);
 
+            AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
+            FirebaseApp.InitializeApp(Application.Context);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());

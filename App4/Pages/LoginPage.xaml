@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:pagemodels="clr-namespace:App4.PageModels" x:DataType="pagemodels:LoginPageModel"
              x:Class="App4.Pages.LoginPage" 
-             Title="Login">
+             Title="Cashly"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="LightGray">
     <ContentPage.Content>
         <StackLayout>
             <Frame VerticalOptions="CenterAndExpand">
@@ -20,16 +22,27 @@
                            VerticalOptions="Center"
                            FontSize="Title" 
                            FontAttributes="Bold"/>
-                    <Entry Grid.Row="1" Placeholder="login" Text="{Binding Username}"/>
+                    <Entry Grid.Row="1" Placeholder="email" Text="{Binding Username}"/>
                     <Entry Grid.Row="2" Placeholder="password" Text="{Binding Password}" IsPassword="True"/>
-                    <Button Grid.Row="3" Text="Log in" Command="{Binding LoginCommand}"/>
+                    <Button Grid.Row="3" Text="Log in" Command="{Binding LoginCommand}"
+                            BackgroundColor="LightGreen"
+                            />
                     <Grid Grid.Row="4">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Forgot Password?"/>
-                        <Label Grid.Column="1" Text="Not a member? Sign up!" HorizontalTextAlignment="End"/>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Grid.Row="0" Text="Forgot Password?"
+                                Command="{Binding ForgotCommand}"
+                                BackgroundColor="Transparent"
+                                />
+                        <Button Grid.Column="1" Grid.Row="0" Text="Sign up!"
+                                Command="{Binding SignUpCommand}"
+                                BackgroundColor="Transparent"/>
+                        
 
                     </Grid>
                 </Grid>

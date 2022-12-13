@@ -15,6 +15,7 @@ namespace App4.Pages
         public DashboardPage()
         {
             InitializeComponent();
+            /*BindingContext = new DashboardPage();*/
         }
     }
 }

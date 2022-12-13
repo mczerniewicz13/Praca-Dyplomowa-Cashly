@@ -11,12 +11,12 @@ using Xamarin.Forms.Xaml;
 namespace App4.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class SignUpPage : ContentPage
     {
-        public LoginPage()
+        public SignUpPage()
         {
             InitializeComponent();
-            BindingContext = new LoginPageModel();
+            BindingContext = new SignUpPageModel();
         }
     }
 }

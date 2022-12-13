@@ -1,5 +1,4 @@
 ﻿using App4.PageModels.Base;
-using App4.Services.Account;
 using App4.Services.Navigation;
 using System;
 using System.Collections.Generic;
@@ -7,46 +6,52 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using FreshMvvm;
+using Firebase.Auth;
+using Newtonsoft.Json;
+using Xamarin.Essentials;
+using App4.Pages;
 
 namespace App4.PageModels
 {
     public class LoginPageModel : FreshBasePageModel
     {
-
-        private ICommand signInCommand;
-        private INavigationService navServ;
-        private IAccountService accServ;
-        private ICommand loginCommand;
-        public ICommand LoginCommand { get; set; }
-        
-
-        private string username;
+        public string WebAPIkey = "AIzaSyD8QwWxxXeotah-wMNNQsCwipOnD7DL_3U";
         public string Username { get; set; }
-
-        private string password;
         public string Password { get; set; }
 
-        public ICommand SignInCommand { get; set; }
-
-        public LoginPageModel(INavigationService navigationService, IAccountService accountService)
+        public Command LoginCommand { get; set; }
+        public Command SignUpCommand { get; set; }
+        public Command ForgotCommand { get; set; }
+        public LoginPageModel()
         {
-            navServ = navigationService;
-            accServ = accountService;
-            LoginCommand = new Command(OnLoginAction);
+            LoginCommand = new Command(()=>LoginAction());
+            SignUpCommand = new Command(() => SignUpAction());
         }
 
-        private async void OnLoginAction(object obj)
+        public async void LoginAction()
         {
-            var loginAttempt = await accServ.LoginAsync(Username, Password);
-            if(loginAttempt)
+            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebAPIkey));
+            try
             {
-                await navServ.NavigateToAsync<DashboardPageModel>();
+                var auth = await authProvider.SignInWithEmailAndPasswordAsync(Username, Password);
+                var content = await auth.GetFreshAuthAsync();
+                var serialized = JsonConvert.SerializeObject(content);
+                Preferences.Set("MyFirebaseRefreshToken", serialized);
+                Preferences.Set("AuthUserID", auth.User.LocalId);
+                await App.Current.MainPage.Navigation.PushAsync(new DashboardPage());
             }
-            else
+            catch (Exception ex)
             {
-                //TODO : Display alert for failure
+                await App.Current.MainPage.DisplayAlert("Alert", "Invalid credentials", "OK");
             }
             
         }
+
+        public async void SignUpAction()
+        {
+            await App.Current.MainPage.Navigation.PushAsync(new SignUpPage());
+        }
+
+  
     }
 }

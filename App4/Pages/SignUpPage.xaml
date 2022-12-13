@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:pagemodels="clr-namespace:App4.PageModels" x:DataType="pagemodels:SignUpPageModel"
+             x:Class="App4.Pages.SignUpPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="LightGray">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame VerticalOptions="CenterAndExpand">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0"  Text="Login" 
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontSize="Title" 
+                           FontAttributes="Bold"/>
+                    <Entry Grid.Row="1" Placeholder="username" Text="{Binding Username}"
+                           />
+                    <Entry Grid.Row="2" Placeholder="email" Text="{Binding UserEmail}"/>
+                    <Entry Grid.Row="3" Placeholder="password" Text="{Binding Password}" IsPassword="True"/>
+                    <Entry Grid.Row="4" Placeholder="repeat password" Text="{Binding RepeatedPassword}" IsPassword="True"/>
+                    <Button Grid.Row="5" Text="SignUp" Command="{Binding SignUpCommand}"
+                            BackgroundColor="LightGreen"/>
+                    <Button Grid.Row="6" Text="Log In!" Command="{Binding LoginCommand}"
+                            BackgroundColor="Transparent"/>
+                </Grid>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -80,11 +80,11 @@
                                     <Label Grid.Column="0" Text="{Binding Title}"
                                            FontSize="Subtitle"
                                            FontAttributes="Bold"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center"/>
+                                           HorizontalOptions="CenterAndExpand"
+                                           VerticalOptions="CenterAndExpand"/>
                                     <Label Grid.Column="1" Text="{Binding Value}"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center"/>
+                                           HorizontalOptions="CenterAndExpand"
+                                           VerticalOptions="CenterAndExpand"/>
                                 </Grid>
                             </StackLayout>
                         </DataTemplate>

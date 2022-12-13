@@ -15,6 +15,7 @@ using System.Linq;
 using App4.Pages;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
+using Xamarin.Essentials;
 
 namespace App4.PageModels
 {
@@ -25,8 +26,9 @@ namespace App4.PageModels
       
 
         public IDisposable collection { get; set; }
-        public ObservableCollection<Spendings> DatabaseItems { get; set; } = new
-            ObservableCollection<Spendings>();
+        public ObservableCollection<Spendings> DatabaseItems { get; set; } /*= new
+            ObservableCollection<Spendings>();*/
+        public List<Spendings> Spendings { get; set; }
         public Spendings SelectedItem { get; set; }
         public double Budget { get; set; } = 1000;
 
@@ -41,8 +43,10 @@ namespace App4.PageModels
 
         public SummaryPageModel()
         {
+            DatabaseItems = new ObservableCollection<Spendings>();
             GoToAddPageCommand = new Command(() => OpenAddPageAsync());
             SelectItemCommand = new Command( () =>  OnSelectionAsync());
+            var uid = Preferences.Get("AuthUserID", "");
             /*Refresh();*/
             DatabaseItems.Clear();
             collection = firebaseClient
@@ -50,11 +54,12 @@ namespace App4.PageModels
                 .AsObservable<Spendings>()
                 .Subscribe((dbevent) =>
                 {
-                    if (dbevent.Object != null)
+                    if (dbevent.Object != null && dbevent.Object.Id == uid)
                     {
-                        DatabaseItems.Add(dbevent.Object);
+                        DatabaseItems.Add(dbevent.Object);//EDIT
                     }
                 });
+            Spendings = DatabaseItems.ToList();
 
         }
 
@@ -70,7 +75,7 @@ namespace App4.PageModels
 
         private async void OnSelectionAsync()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new EditSpendingPage(SelectedItem));
+            await Application.Current.MainPage.Navigation.PushModalAsync(new EditSpendingPage(SelectedItem));
 
             Refresh();
         }    

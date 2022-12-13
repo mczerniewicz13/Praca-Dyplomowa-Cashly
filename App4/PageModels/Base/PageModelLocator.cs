@@ -1,5 +1,5 @@
 ﻿using App4.Pages;
-using App4.Services.Account;
+
 using App4.Services.Navigation;
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace App4.PageModels.Base
 
             //Register services (services are registered as singletons by default)
             container.Register<INavigationService, NavigationService>();
-            container.Register<IAccountService>(DependencyService.Get<IAccountService>());
+
             
         }
 

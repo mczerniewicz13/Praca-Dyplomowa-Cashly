@@ -4,44 +4,37 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using FreshMvvm;
+using Firebase.Auth;
+using Newtonsoft.Json;
+using Xamarin.Essentials;
+
 namespace App4.PageModels
 {
     public class DashboardPageModel : FreshBasePageModel
     {
-        
-        /*private ProfilePageModel profilePM;
-        public ProfilePageModel ProfilePageModel { get; set; }
-
-        private SettingsPageModel settingsPM;
-        public SettingsPageModel SettingsPageModel { get; set; }
-
-        private SummaryPageModel summaryPM;
-        public SummaryPageModel SummaryPageModel { get; set; }
-
-        private BudgetPageModel budgetPM;
-        public BudgetPageModel BudgetPageModel { get; set; }
-*/
-        public DashboardPageModel(/*ProfilePageModel profile, SettingsPageModel settings, SummaryPageModel summary, BudgetPageModel budget*/)
+        private string WebAPIkey = "AIzaSyD8QwWxxXeotah-wMNNQsCwipOnD7DL_3U";
+        //public string EmailUser { get; set; }
+        public DashboardPageModel()
         {
-            /*ProfilePageModel = profile;
-            SettingsPageModel = settings;
-            SummaryPageModel = summary; 
-            BudgetPageModel = budget;*/
-
-
+            GetUserInfo();
         }
-
-
-
-        /*public override Task InitializeAsync(object NavigationDate = null)
+        private async void GetUserInfo()
         {
+            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebAPIkey));
+            try
+            {
+                var savedAuth = JsonConvert.DeserializeObject<Firebase.Auth.FirebaseAuth>(Preferences
+                    .Get("MyFirebaseRefreshToken",""));
+                var refreshedContent = await authProvider.RefreshAuthAsync(savedAuth);
+                Preferences.Set("MyFirebaseRefreshToken", JsonConvert.SerializeObject(refreshedContent));
+                /*EmailUser = savedAuth.User.Email;*/
 
-            return Task.WhenAny(base.InitializeAsync(NavigationDate),
-                ProfilePageModel.InitializeAsync(null),
-                SettingsPageModel.InitializeAsync(null),
-                SummaryPageModel.InitializeAsync(null),
-                BudgetPageModel.InitializeAsync(null));
-        }*/
+            }
+            catch
+            {
+                await App.Current.MainPage.DisplayAlert("Alert","Token Expired"," OK");
+            }
+        }
 
     }
 }

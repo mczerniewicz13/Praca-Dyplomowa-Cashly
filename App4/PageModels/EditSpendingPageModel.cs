@@ -64,7 +64,7 @@ namespace App4.PageModels
             };
             
             await firebaseClient.Child("Spendings").Child(spd.Key).PatchAsync(newSpd);
-            await Application.Current.MainPage.Navigation.PushAsync(new SummaryPage());
+            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private async void DeleteAction()

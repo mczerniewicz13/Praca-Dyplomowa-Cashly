@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Syncfusion.Licensing;
 using FreshMvvm;
+using Xamarin.Essentials;
 
 namespace App4
 {
@@ -17,14 +18,29 @@ namespace App4
         {
             SyncfusionLicenseProvider.RegisterLicense("NzcyNjU3QDMyMzAyZTMzMmUzMG1UVkVNV2xKekVpTlNGTTVzV0ZXSlVEdEE0cDBJZGNIZWZSY3lKRzlHQzQ9");
             InitializeComponent();
-            var page = FreshPageModelResolver.ResolvePageModel<DashboardPageModel>();
-            var navigationPage = new FreshNavigationContainer(page);
-            /*var navigationPage = new FreshTabbedNavigationContainer();
-            navigationPage.AddTab<BudgetPageModel>("Budget", "dollar.png");
-            navigationPage.AddTab<SummaryPageModel>("Summary", "payment.png");
-            navigationPage.BarBackgroundColor = Color.White;
-            navigationPage.BarTextColor = Color.Black;*/
-            MainPage = navigationPage;
+            if(!string.IsNullOrEmpty(Preferences.Get("MyFirebaseRefreshToken","")))
+            {
+                var page = FreshPageModelResolver.ResolvePageModel<DashboardPageModel>();
+                var navigationPage = new FreshNavigationContainer(page);
+                /*var navigationPage = new FreshTabbedNavigationContainer();
+                navigationPage.AddTab<BudgetPageModel>("Budget", "dollar.png");
+                navigationPage.AddTab<SummaryPageModel>("Summary", "payment.png");
+                navigationPage.BarBackgroundColor = Color.White;
+                navigationPage.BarTextColor = Color.Black;*/
+                MainPage = navigationPage;
+            }
+            else
+            {
+                var page = FreshPageModelResolver.ResolvePageModel<LoginPageModel>();
+                var navigationPage = new FreshNavigationContainer(page);
+                /*var navigationPage = new FreshTabbedNavigationContainer();
+                navigationPage.AddTab<BudgetPageModel>("Budget", "dollar.png");
+                navigationPage.AddTab<SummaryPageModel>("Summary", "payment.png");
+                navigationPage.BarBackgroundColor = Color.White;
+                navigationPage.BarTextColor = Color.Black;*/
+                MainPage = navigationPage;
+            }
+            
             
         }
 
