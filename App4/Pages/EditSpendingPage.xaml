@@ -19,6 +19,8 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Text="Edit Spending"
                            HorizontalOptions="Center"
@@ -27,7 +29,9 @@
                     <Editor x:Name="SpendingDescription" Grid.Row="2" Placeholder="Description" Text="{Binding SpendingDescription}"/>
                     <numberInput:SfNumericTextBox x:Name="SpendingValue" Grid.Row="3" Value="{Binding SpendingValue}"/>
                     <DatePicker x:Name="SpendingDate" Grid.Row="4" Format="dd/MM/yyyy" Date="{Binding SpendingDate}"/>
-                    <Grid Grid.Row="5">
+                    <Picker Grid.Row="5" Title="Select category..." ItemsSource="{Binding Categories}" 
+                             SelectedItem="{Binding SpendingCategory}" />
+                    <Grid Grid.Row="6">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -38,7 +42,7 @@
                         <Button Grid.Column="1" Text="Cancel" 
                                 Command="{Binding CancelCommand}" BackgroundColor="LightBlue"/>
                     </Grid>
-                    <Button Grid.Row="6" Text="Edit" 
+                    <Button Grid.Row="7" Text="Edit" 
                                 Command="{Binding EditCommand}" BackgroundColor="LightGreen"/>
 
                 </Grid>

@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App4.Pages.AddSpendingPage"
-             xmlns:numberInput="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
+             xmlns:numberInput="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms" 
+             xmlns:pagemodels="clr-namespace:App4.PageModels" x:DataType="pagemodels:AddSpendingPageModel"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Content>
@@ -17,6 +19,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Text="Add Spending"
                            HorizontalOptions="Center"
@@ -25,7 +28,11 @@
                     <Editor Grid.Row="2" Placeholder="Description" Text="{Binding SpendingDescription}"/>
                     <numberInput:SfNumericTextBox  Grid.Row="3" Value="{Binding SpendingValue}"/>
                     <DatePicker Grid.Row="4" Format="dd/MM/yyyy" Date="{Binding SpendingDate}"/>
-                    <Grid Grid.Row="5">
+                    <Picker Grid.Row="5" Title="Select category..." ItemsSource="{Binding Categories}" 
+                             SelectedItem="{Binding SelectedItem}" />
+
+
+                    <Grid Grid.Row="6">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -33,6 +40,7 @@
                         <Button Grid.Column="0" Text="Add" Command="{Binding AddCommand}" BackgroundColor="LightGreen"/>
                         <Button Grid.Column="1" Text="Cancel" Command="{Binding CancelCommand}" BackgroundColor="LightPink"/>
                     </Grid>
+                    
 
 
                 </Grid>

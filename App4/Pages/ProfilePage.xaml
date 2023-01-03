@@ -3,11 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:pagemodels="clr-namespace:App4.PageModels" x:DataType="pagemodels:ProfilePageModel"
              x:Class="App4.Pages.ProfilePage"> 
     <ContentPage.Content>
+
         <StackLayout>
             <Label Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
             <Button Text="Logout" Command="{Binding LogOutCommand}"/>
+            
         </StackLayout>
+            
     </ContentPage.Content>
 </ContentPage>

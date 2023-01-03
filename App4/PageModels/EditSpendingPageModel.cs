@@ -25,7 +25,8 @@ namespace App4.PageModels
         public Command CancelCommand { get; set; }
 
         public Command DeleteCommand { get; set; }
-
+        public string SpendingCategory { get; set; }
+        public List<string> Categories { get; set; }
         public EditSpendingPageModel(Spendings SelectedItem)
         { 
             selectedSpd = SelectedItem;
@@ -33,18 +34,32 @@ namespace App4.PageModels
             SpendingDescription = selectedSpd.Description;
             SpendingDate = selectedSpd.Date;
             SpendingValue = selectedSpd.Value;
-
+            SpendingCategory = selectedSpd.Category;
+            Categories = new List<string>();
+            InitializeCategories();
             EditCommand = new Command(() => EditAction());
             CancelCommand = new Command(() => CancelAction());
             DeleteCommand = new Command(() => DeleteAction());
         }
+
+        private void InitializeCategories()
+        {
+            Categories.Add("Food");
+            Categories.Add("Bills");
+            Categories.Add("Entertaiment");
+            Categories.Add("Clothes");
+            Categories.Add("Health");
+            Categories.Add("Transportation");
+            Categories.Add("Other");
+        }
         private async void CancelAction()
         {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
         private async void EditAction()
         {
-
+            
+            
             var spd = (await firebaseClient
                 .Child("Spendings").OnceAsync<Spendings>())
                 .FirstOrDefault(s => s.Object.Id == selectedSpd.Id);
@@ -54,17 +69,25 @@ namespace App4.PageModels
             var value = Convert.ToDouble(SpendingValue.ToString());
             var date = SpendingDate.Date;
             var id = spd.Object.Id;
+            var ownerid = spd.Object.OwnerId;
+            var cat = SpendingCategory;
             var newSpd = new Spendings
             {
                 Id = id,
+                OwnerId = ownerid,
                 Title = title,
                 Description = description,
                 Value = value,
-                Date = date
+                Date = date,
+                Category = cat
             };
-            
-            await firebaseClient.Child("Spendings").Child(spd.Key).PatchAsync(newSpd);
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+
+            var pageBefore = App.Current.MainPage.Navigation.NavigationStack.Count - 2;
+            var navStack = App.Current.MainPage.Navigation.NavigationStack[pageBefore];
+            App.Current.MainPage.Navigation.RemovePage(navStack);
+            await firebaseClient.Child("Spendings").Child(spd.Key).PutAsync(newSpd);
+            App.Current.MainPage.Navigation.InsertPageBefore(new SummaryPage(), App.Current.MainPage.Navigation.NavigationStack.Last());
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
 
         private async void DeleteAction()
@@ -76,9 +99,12 @@ namespace App4.PageModels
                 var spd = (await firebaseClient
                 .Child("Spendings").OnceAsync<Spendings>())
                 .FirstOrDefault(s => s.Object.Id == selectedSpd.Id);
-
+                var pageBefore = App.Current.MainPage.Navigation.NavigationStack.Count - 2;
+                var navStack = App.Current.MainPage.Navigation.NavigationStack[pageBefore];
+                App.Current.MainPage.Navigation.RemovePage(navStack);
                 await firebaseClient.Child("Spendings").Child(spd.Key).DeleteAsync();
-                await Application.Current.MainPage.Navigation.PopModalAsync();
+                App.Current.MainPage.Navigation.InsertPageBefore(new SummaryPage(), App.Current.MainPage.Navigation.NavigationStack.Last());
+                await Application.Current.MainPage.Navigation.PopAsync();
             }
 
 

@@ -5,6 +5,7 @@ using FirebaseAdmin.Auth;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,12 +16,12 @@ using Xamarin.Forms.Xaml;
 namespace App4.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SummaryPage : ContentPage
+    public partial class SummaryPage : ContentPage, INotifyPropertyChanged
     {
         public SummaryPage()
         {
             InitializeComponent();
-            BindingContext = new SummaryPageModel();
+            BindingContext = new SummaryPageModel(SpendingColView);
         }
     }
 }

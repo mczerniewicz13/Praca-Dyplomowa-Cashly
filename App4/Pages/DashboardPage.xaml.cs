@@ -10,12 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace App4.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DashboardPage : TabbedPage
+    public partial class DashboardPage : ContentPage
     {
         public DashboardPage()
         {
             InitializeComponent();
-            /*BindingContext = new DashboardPage();*/
         }
     }
 }

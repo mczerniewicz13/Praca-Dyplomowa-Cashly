@@ -45,13 +45,15 @@
                                  SelectionMode="Single"
                                  SelectionChangedCommand="{Binding SelectItemCommand}"
                                  SelectedItem="{Binding SelectedItem}"
-                                 x:Name="SpendingColView">
+                                 x:Name="SpendingColView"
+                                 >
 
                     <CollectionView.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Text="Title"
                                            FontSize="Subtitle"
@@ -59,7 +61,13 @@
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"/>
-                            <Label Grid.Column="1" Text="Value"
+                            <Label Grid.Column="1" Text="Category"
+                                           FontSize="Subtitle"
+                                           TextColor="Black"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                            <Label Grid.Column="2" Text="Value"
                                FontSize="Subtitle"
                                    TextColor="Black"
                                            FontAttributes="Bold"
@@ -73,8 +81,9 @@
                             <StackLayout>
                                 <Grid Margin="0,10,0,0" RowSpacing="8">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*"/>
-                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
 
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Column="0" Text="{Binding Title}"
@@ -82,7 +91,12 @@
                                            FontAttributes="Bold"
                                            HorizontalOptions="CenterAndExpand"
                                            VerticalOptions="CenterAndExpand"/>
-                                    <Label Grid.Column="1" Text="{Binding Value}"
+                                    <Label Grid.Column="1" Text="{Binding Category}"
+                                           FontSize="Subtitle"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="CenterAndExpand"
+                                           VerticalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="2" Text="{Binding Value}"
                                            HorizontalOptions="CenterAndExpand"
                                            VerticalOptions="CenterAndExpand"/>
                                 </Grid>

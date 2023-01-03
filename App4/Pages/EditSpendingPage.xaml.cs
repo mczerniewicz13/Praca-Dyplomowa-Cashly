@@ -20,6 +20,6 @@ namespace App4.Pages
         {
             InitializeComponent();
             BindingContext = new EditSpendingPageModel(SelectedSpedning);
-        }
+         }
     }
 }
