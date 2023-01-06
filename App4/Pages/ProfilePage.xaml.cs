@@ -1,4 +1,5 @@
-﻿using App4.PageModels;
+﻿using App4.Models;
+using App4.PageModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,10 @@ namespace App4.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProfilePage : ContentPage
     {
-        public ProfilePage()
+        public ProfilePage(CashlyUser user)
         {
             InitializeComponent();
-            BindingContext = new ProfilePageModel();
+            BindingContext = new ProfilePageModel(user);
         }
     }
 }

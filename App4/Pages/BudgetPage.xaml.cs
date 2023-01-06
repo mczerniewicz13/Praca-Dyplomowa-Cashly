@@ -1,4 +1,6 @@
-﻿using System;
+﻿using App4.Models;
+using App4.PageModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +14,13 @@ namespace App4.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BudgetPage : ContentPage
     {
-        public BudgetPage()
+        public CollectionView selItem { get; set; }
+        public BudgetPage(CashlyUser user)
         {
             InitializeComponent();
+            BindingContext = new BudgetPageModel(selItem, user);
         }
+
+        
     }
 }

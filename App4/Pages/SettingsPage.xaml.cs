@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App4.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace App4.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingsPage : ContentPage
     {
-        public SettingsPage()
+        public SettingsPage(CashlyUser user)
         {
             InitializeComponent();
         }

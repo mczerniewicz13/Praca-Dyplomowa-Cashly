@@ -18,10 +18,10 @@ namespace App4.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SummaryPage : ContentPage, INotifyPropertyChanged
     {
-        public SummaryPage()
+        public SummaryPage(CashlyUser user)
         {
             InitializeComponent();
-            BindingContext = new SummaryPageModel(SpendingColView);
+            BindingContext = new SummaryPageModel(SpendingColView,user);
         }
     }
 }

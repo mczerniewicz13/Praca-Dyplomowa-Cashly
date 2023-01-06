@@ -5,7 +5,10 @@
              xmlns:numberInput="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms" 
              xmlns:pagemodels="clr-namespace:App4.PageModels" x:DataType="pagemodels:AddSpendingPageModel"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             NavigationPage.HasNavigationBar="False">
+             xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="White"
+             x:Name="ContentPage1">
 
     <ContentPage.Content>
         
@@ -15,24 +18,68 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Text="Add Spending"
+                    <Label Grid.Row="0" Text="Add"
                            HorizontalOptions="Center"
-                           FontSize="Title"/>
-                    <Entry Grid.Row="1" Placeholder="Title" Text="{Binding SpendingTitle}"/>
-                    <Editor Grid.Row="2" Placeholder="Description" Text="{Binding SpendingDescription}"/>
-                    <numberInput:SfNumericTextBox  Grid.Row="3" Value="{Binding SpendingValue}"/>
-                    <DatePicker Grid.Row="4" Format="dd/MM/yyyy" Date="{Binding SpendingDate}"/>
-                    <Picker Grid.Row="5" Title="Select category..." ItemsSource="{Binding Categories}" 
+                           FontSize="Title"
+                           x:Name="Title"/>
+
+
+                    <syncfusion:SfSwitch Grid.Row="1" VisualType="Custom" Scale="2" StateChanging="SfSwitch_StateChanging">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="On">
+                                    <VisualState.Setters>
+                                        <Setter Property="SwitchSettings">
+                                            <Setter.Value>
+                                                <syncfusion:FluentSwitchSettings 
+                                                    x:TypeArguments="syncfusion:OnState"
+                                                    ThumbColor="LightGreen"
+                                                    ThumbBorderColor="LightGreen"
+                                                    TrackBorderColor="Green"
+                                                    TrackBorderWidth="2"
+                                                    TrackColor="white"
+                                                    />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Off">
+                                    <VisualState.Setters>
+                                        <Setter Property="SwitchSettings">
+                                            <Setter.Value>
+                                                <syncfusion:FluentSwitchSettings 
+                                                    x:TypeArguments="syncfusion:OffState"
+                                                    ThumbColor="LightPink"
+                                                    ThumbBorderColor="LightPink"
+                                                    TrackBorderColor="Salmon"
+                                                    TrackBorderWidth="2"
+                                                    TrackColor="white"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </syncfusion:SfSwitch>
+
+                    <Entry IsVisible="false" Text="{Binding state}" x:Name="stateEntry"/>
+                    <Entry Grid.Row="2" Placeholder="Title" Text="{Binding SpendingTitle}"/>
+                    <Editor Grid.Row="3" Placeholder="Description" Text="{Binding SpendingDescription}"/>
+                    <numberInput:SfNumericTextBox  Grid.Row="4" Value="{Binding SpendingValue}"/>
+                    <DatePicker Grid.Row="5" Format="dd/MM/yyyy" Date="{Binding SpendingDate}"/>
+                    <Picker Grid.Row="6" Title="Select category..." ItemsSource="{Binding Categories}" 
                              SelectedItem="{Binding SelectedItem}" />
 
 
-                    <Grid Grid.Row="6">
+                    <Grid Grid.Row="7">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>

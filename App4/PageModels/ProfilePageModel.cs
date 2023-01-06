@@ -1,4 +1,5 @@
-﻿using App4.PageModels.Base;
+﻿using App4.Models;
+using App4.PageModels.Base;
 using App4.Pages;
 using FreshMvvm;
 using System;
@@ -15,9 +16,11 @@ namespace App4.PageModels
         public Command BudgetCommand { get; set; }
         public Command SaldoCommand { get; set; }
         public Command SettingsCommand { get; set; }
+        public CashlyUser user { get; set; }
 
-        public ProfilePageModel()
+        public ProfilePageModel(CashlyUser user)
         {
+            this.user = user;
             LogOutCommand = new Command(()=>LogOutAction());
 
             BudgetCommand = new Command(() => BudgetAction());
@@ -37,19 +40,19 @@ namespace App4.PageModels
         private async void BudgetAction()
         {
             await App.Current.MainPage.Navigation.PopModalAsync();
-            await App.Current.MainPage.Navigation.PushModalAsync(new BudgetPage());
+            await App.Current.MainPage.Navigation.PushModalAsync(new BudgetPage(user));
         }
 
         private async void SaldoAction()
         {
             await App.Current.MainPage.Navigation.PopModalAsync();
-            await App.Current.MainPage.Navigation.PushModalAsync(new SummaryPage());
+            await App.Current.MainPage.Navigation.PushModalAsync(new SummaryPage(user));
         }
 
         private async void SettingsAction()
         {
             await App.Current.MainPage.Navigation.PopModalAsync();
-            await App.Current.MainPage.Navigation.PushModalAsync(new BudgetPage());
+            await App.Current.MainPage.Navigation.PushModalAsync(new BudgetPage(user));
         }
     }
 }

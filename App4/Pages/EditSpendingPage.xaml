@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App4.Pages.EditSpendingPage"
-             xmlns:numberInput="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms" xmlns:pagemodels="clr-namespace:App4.PageModels" x:DataType="pagemodels:EditSpendingPageModel"
-             NavigationPage.HasNavigationBar="False">
+             xmlns:numberInput="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms" xmlns:pagemodels="clr-namespace:App4.PageModels" xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" x:DataType="pagemodels:EditSpendingPageModel"
+             NavigationPage.HasNavigationBar="False"
+             x:Name="ContentPage1">
 
     <ContentPage.Content>
   
@@ -14,6 +15,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -22,16 +24,54 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Text="Edit Spending"
+                    <Label Grid.Row="0" Text="Edit" x:Name="Title"
                            HorizontalOptions="Center"
                            FontSize="Title"/>
-                    <Entry x:Name="SpendingTitle" Grid.Row="1" Placeholder="Title" Text="{Binding SpendingTitle}"/>
-                    <Editor x:Name="SpendingDescription" Grid.Row="2" Placeholder="Description" Text="{Binding SpendingDescription}"/>
-                    <numberInput:SfNumericTextBox x:Name="SpendingValue" Grid.Row="3" Value="{Binding SpendingValue}"/>
-                    <DatePicker x:Name="SpendingDate" Grid.Row="4" Format="dd/MM/yyyy" Date="{Binding SpendingDate}"/>
-                    <Picker Grid.Row="5" Title="Select category..." ItemsSource="{Binding Categories}" 
+                    <syncfusion:SfSwitch Grid.Row="1" VisualType="Custom" Scale="2" StateChanging="SfSwitch_StateChanging" x:Name="switch">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="On">
+                                    <VisualState.Setters>
+                                        <Setter Property="SwitchSettings">
+                                            <Setter.Value>
+                                                <syncfusion:FluentSwitchSettings 
+                                                    x:TypeArguments="syncfusion:OnState"
+                                                    ThumbColor="LightGreen"
+                                                    ThumbBorderColor="LightGreen"
+                                                    TrackBorderColor="Green"
+                                                    TrackBorderWidth="2"
+                                                    TrackColor="white"
+                                                    />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Off">
+                                    <VisualState.Setters>
+                                        <Setter Property="SwitchSettings">
+                                            <Setter.Value>
+                                                <syncfusion:FluentSwitchSettings 
+                                                    x:TypeArguments="syncfusion:OffState"
+                                                    ThumbColor="LightPink"
+                                                    ThumbBorderColor="LightPink"
+                                                    TrackBorderColor="Salmon"
+                                                    TrackBorderWidth="2"
+                                                    TrackColor="white"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </syncfusion:SfSwitch>
+                    <Entry x:Name="SpendingTitle" Grid.Row="2" Placeholder="Title" Text="{Binding SpendingTitle}"/>
+                    <Editor x:Name="SpendingDescription" Grid.Row="3" Placeholder="Description" Text="{Binding SpendingDescription}"/>
+                    <numberInput:SfNumericTextBox x:Name="SpendingValue" Grid.Row="4" Value="{Binding SpendingValue}"/>
+                    <DatePicker x:Name="SpendingDate" Grid.Row="5" Format="dd/MM/yyyy" Date="{Binding SpendingDate}"/>
+                    <Picker Grid.Row="6" Title="Select category..." ItemsSource="{Binding Categories}" 
                              SelectedItem="{Binding SpendingCategory}" />
-                    <Grid Grid.Row="6">
+                    <Grid Grid.Row="7">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -42,10 +82,11 @@
                         <Button Grid.Column="1" Text="Cancel" 
                                 Command="{Binding CancelCommand}" BackgroundColor="LightBlue"/>
                     </Grid>
-                    <Button Grid.Row="7" Text="Edit" 
+                    <Button Grid.Row="8" Text="Edit" 
                                 Command="{Binding EditCommand}" BackgroundColor="LightGreen"/>
-
+                    <Entry IsVisible="false" Text="{Binding state}" x:Name="stateEntry"/>
                 </Grid>
+                
             </Frame>
         </StackLayout>
     </ContentPage.Content>

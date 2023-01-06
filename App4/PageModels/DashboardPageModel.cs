@@ -29,7 +29,8 @@ namespace App4.PageModels
         {
             Task.Run(async()=> await GetUserInfo()).Wait();
             //GetUserInfo();
-             
+            UserName = user.username;
+            BudgetValue = user.budget;
             WelcomeMessage = "Welcome " + UserName + "!";
             BudgetClicked = new Command(()=>BudgetAction());
             SpendingsClicked = new Command(() => SpendingsAction());
@@ -40,22 +41,22 @@ namespace App4.PageModels
 
         private async void SettingsAction()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new SettingsPage());
+            await App.Current.MainPage.Navigation.PushAsync(new SettingsPage(user));
         }
 
         private async void ProfileAction()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new ProfilePage());
+            await App.Current.MainPage.Navigation.PushAsync(new ProfilePage(user));
         }
 
         private async void SpendingsAction()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new SummaryPage());
+            await App.Current.MainPage.Navigation.PushAsync(new SummaryPage(user));
         }
 
         private async void BudgetAction()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new BudgetPage());
+            await App.Current.MainPage.Navigation.PushAsync(new BudgetPage(user));
         }
         /*private async Task GetUser()
         {
@@ -77,11 +78,21 @@ namespace App4.PageModels
                 /*EmailUser = savedAuth.User.Email;*/
 
                 /*var uid = savedAuth.User.LocalId;*/
-                var user = (await firebaseClient
+                var userData = (await firebaseClient
                     .Child("Users").OnceAsync<CashlyUser>())
                     .FirstOrDefault(u => u.Object.Id == uid);
-                UserName = user.Object.username;
-                BudgetValue = user.Object.budget;
+                user = new CashlyUser();
+                user.Id = userData.Object.Id;
+                user.username = userData.Object.username;
+                user.email = userData.Object.email;
+                user.budget = userData.Object.budget;
+                user.inviteCode = userData.Object.inviteCode;
+                user.groupId = userData.Object.groupId;
+                user.saldoId = userData.Object.saldoId;
+                user.selectedPlan = userData.Object.selectedPlan;
+                UserName = user.username;
+                BudgetValue = user.budget;
+
             }
             catch
             {

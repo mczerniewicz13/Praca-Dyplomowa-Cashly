@@ -34,7 +34,7 @@
 
             </Grid>
 
-            <Label Grid.Row="1" Text="{Binding Budget}"
+            <Label Grid.Row="1" Text="{Binding BudgetValue}"
                    FontSize="Title"
                    FontAttributes="Bold"
                    TextColor="Black"
@@ -55,24 +55,29 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="Title"
+                            <Button Grid.Column="0" Text="Title"
                                            FontSize="Subtitle"
                                            TextColor="Black"
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"
-                                           VerticalOptions="Center"/>
-                            <Label Grid.Column="1" Text="Category"
+                                           VerticalOptions="Center"
+                                    BackgroundColor="Transparent"
+                                   />
+                            <Button Grid.Column="1" Text="Category"
                                            FontSize="Subtitle"
                                            TextColor="Black"
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"
-                                           VerticalOptions="Center"/>
-                            <Label Grid.Column="2" Text="Value"
+                                           VerticalOptions="Center"
+                                     BackgroundColor="Transparent"
+                                    />
+                            <Button Grid.Column="2" Text="Value"
                                FontSize="Subtitle"
                                    TextColor="Black"
                                            FontAttributes="Bold"
                                            HorizontalOptions="Center"
-                                           VerticalOptions="Center"/>
+                                           VerticalOptions="Center"
+                                     BackgroundColor="Transparent"/>
 
                         </Grid>
                     </CollectionView.Header>

@@ -17,6 +17,7 @@ using System.Runtime.CompilerServices;
 using System.ComponentModel;
 using Xamarin.Essentials;
 using System.Reactive.Linq;
+using Syncfusion.DataSource.Extensions;
 
 namespace App4.PageModels
 {
@@ -27,13 +28,13 @@ namespace App4.PageModels
       
 
         public IDisposable collection { get; set; }
-        public ObservableCollection<Spendings> DatabaseItems { get; set; } /*= new
+        public ObservableCollection<Budget> DatabaseItems { get; set; } /*= new
             ObservableCollection<Spendings>();*/
-        public List<Spendings> Spendings { get; set; }
-        public Spendings SelectedItem { get; set; }
+        public List<Budget> Spendings { get; set; }
+        public Budget SelectedItem { get; set; }
 
         public CollectionView ColView { get; set; }
-        public double Budget { get; set; } = 1000;
+        public double BudgetValue { get; set; } = 1000;
 
         public bool isBusy { get;set; }
 
@@ -48,10 +49,12 @@ namespace App4.PageModels
         public Command SelectItemCommand { get; set; }
 
         private string uid = Preferences.Get("AuthUserID", "");
+        public CashlyUser user { get; set; }
 
-        public SummaryPageModel(CollectionView colView)
+        public SummaryPageModel(CollectionView colView, CashlyUser user)
         {
-            DatabaseItems = new ObservableCollection<Spendings>();
+            this.user = user;
+            DatabaseItems = new ObservableCollection<Budget>();
             GoToAddPageCommand = new Command(() => OpenAddPageAsync());
             SelectItemCommand = new Command(() => OnSelectionAsync());
             ColView = colView;
@@ -59,8 +62,8 @@ namespace App4.PageModels
             /*Refresh();*/
             //DatabaseItems.Clear();
             collection = firebaseClient
-                .Child("Spendings")
-                .AsObservable<Spendings>()
+                .Child("Budget")
+                .AsObservable<Budget>()
                 .Subscribe((dbevent) =>
                 {
 
@@ -77,17 +80,16 @@ namespace App4.PageModels
         public void OnPropertyChanged(string name)=>
             PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(name));
 
-    
-
+   
         public async void OpenAddPageAsync()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new AddSpendingPage());
+            await Application.Current.MainPage.Navigation.PushAsync(new AddSpendingPage(user));
         }
 
         private void OnSelectionAsync()
         {
             var sel = SelectedItem;
-            Application.Current.MainPage.Navigation.PushAsync(new EditSpendingPage(sel));
+            Application.Current.MainPage.Navigation.PushAsync(new EditSpendingPage(sel,user));
 
             
         }    

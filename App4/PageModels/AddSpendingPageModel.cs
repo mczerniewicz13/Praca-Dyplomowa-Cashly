@@ -30,14 +30,15 @@ namespace App4.PageModels
         public Guid id { get; set; }
 
         public string SelectedItem { get; set; }
-
+        public string AddText { get; set; }
+        public string state { get; set; }
         public Command AddCommand { get; set; }
         public Command CancelCommand { get; set; }
-       
-
-        public AddSpendingPageModel()
+        public CashlyUser user { get; set; }
+        public AddSpendingPageModel(CashlyUser user)
         {
-            
+            this.user = user;
+            AddText = "Add Spending";
             Categories = new List<string>();
             InitializeCategories();
             AddCommand = new Command(() => AddAction());
@@ -48,7 +49,7 @@ namespace App4.PageModels
         }
 
 
-
+  
         private void InitializeCategories()
         {
             Categories.Add("Food");
@@ -57,7 +58,9 @@ namespace App4.PageModels
             Categories.Add("Clothes");
             Categories.Add("Health");
             Categories.Add("Transportation");
-            Categories.Add("Other");
+            Categories.Add("Salary");
+            Categories.Add("Other Income");
+            Categories.Add("Other Spending");
         }
 
         private void CancelAction()
@@ -71,18 +74,28 @@ namespace App4.PageModels
             var description = SpendingDescription.Text;
             var value = Convert.ToDouble(SpendingValue.Value.ToString());
             var date = SpendingDate.Date;*/
+            var multiplier = -1;
+            var dir = 0;
+            if (state == "1")
+            {
+                dir = 1;
+                multiplier = 1;
+            }
+                
+
             var uid = Preferences.Get("AuthUserID", "");
-            var spd = new Spendings
+            var spd = new Budget
             {
                 Id = FirebaseKeyGenerator.Next().ToString(),
                 OwnerId = uid,
                 Title = SpendingTitle,
                 Description = SpendingDescription,
-                Value = SpendingValue,
+                Value = SpendingValue * multiplier,
                 Date = SpendingDate,
-                Category = SelectedItem
+                Category = SelectedItem,
+                Direction = dir
             };
-            await firebaseClient.Child("Spendings").PostAsync(spd);
+            await firebaseClient.Child("Budget").PostAsync(spd);
             SpendingTitle = "";
             SpendingDescription = "";
             SpendingValue = 0;
@@ -94,7 +107,7 @@ namespace App4.PageModels
             var pageBefore = App.Current.MainPage.Navigation.NavigationStack.Count - 2;
             var navStack = App.Current.MainPage.Navigation.NavigationStack[pageBefore];
             App.Current.MainPage.Navigation.RemovePage(navStack);
-            App.Current.MainPage.Navigation.InsertPageBefore(new SummaryPage(), App.Current.MainPage.Navigation.NavigationStack.Last());
+            App.Current.MainPage.Navigation.InsertPageBefore(new BudgetPage(user), App.Current.MainPage.Navigation.NavigationStack.Last());
             await Application.Current.MainPage.Navigation.PopAsync();
         }
     }
