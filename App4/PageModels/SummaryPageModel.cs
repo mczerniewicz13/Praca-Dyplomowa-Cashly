@@ -25,75 +25,135 @@ namespace App4.PageModels
     {
 
         FirebaseClient firebaseClient = new FirebaseClient("https://cashly-9d2ac-default-rtdb.europe-west1.firebasedatabase.app/");
-      
-
-        public IDisposable collection { get; set; }
-        public ObservableCollection<Budget> DatabaseItems { get; set; } /*= new
-            ObservableCollection<Spendings>();*/
-        public List<Budget> Spendings { get; set; }
-        public Budget SelectedItem { get; set; }
-
-        public CollectionView ColView { get; set; }
-        public double BudgetValue { get; set; } = 1000;
-
-        public bool isBusy { get;set; }
-
-        public string Title { get; set; }
-        public string Value { get; set; }
-
-        public string Category { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public Command GoToAddPageCommand { get; set; }
-        public Command SelectItemCommand { get; set; }
 
         private string uid = Preferences.Get("AuthUserID", "");
         public CashlyUser user { get; set; }
 
-        public SummaryPageModel(CollectionView colView, CashlyUser user)
+        public ObservableCollection<Budget> ChartSpendings {get;set;}
+        public ObservableCollection<Budget> ChartWeekSpendings { get; set; }
+        public ObservableCollection<Budget> ChartMonthSpendings { get; set; }
+        public bool ChartSpendingsNoDataLabel { get; set; }
+        public bool ChartSpendingsVisible { get; set; }
+        public bool ChartMonthSpendingsNoDataLabel { get; set; }
+        public bool ChartMonthSpendingsVisible { get; set; }
+        public bool ChartWeekSpendingsNoDataLabel { get; set; }
+        public bool ChartWeekSpendingsVisible { get; set; }
+
+        public double BudgetValue { get; set; }
+        public double TotalIncome { get; set; }
+        public double TotalSpendings { get; set; }
+
+        public Command BackCommand { get; set; }
+        public SummaryPageModel(CashlyUser user)
         {
+            ChartSpendingsNoDataLabel = false;
+            ChartSpendingsVisible = false;
+            ChartMonthSpendingsNoDataLabel = false;
+            ChartMonthSpendingsVisible = false;
+            ChartWeekSpendingsNoDataLabel = false;
+            ChartWeekSpendingsVisible = false;
+            BudgetValue = 0;
+            TotalIncome = 0;
+            TotalIncome = 0;
             this.user = user;
-            DatabaseItems = new ObservableCollection<Budget>();
-            GoToAddPageCommand = new Command(() => OpenAddPageAsync());
-            SelectItemCommand = new Command(() => OnSelectionAsync());
-            ColView = colView;
-
-            /*Refresh();*/
-            //DatabaseItems.Clear();
-            collection = firebaseClient
-                .Child("Budget")
-                .AsObservable<Budget>()
-                .Subscribe((dbevent) =>
-                {
-
-                    if (dbevent.Object != null && dbevent.Object.OwnerId == uid)
-                    {
-                        DatabaseItems.Add(dbevent.Object);//EDIT
-                    }
-                });
-
-            Spendings = DatabaseItems.ToList();
-            ColView = colView;
-        }
-
-        public void OnPropertyChanged(string name)=>
-            PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(name));
-
-   
-        public async void OpenAddPageAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushAsync(new AddSpendingPage(user));
-        }
-
-        private void OnSelectionAsync()
-        {
-            var sel = SelectedItem;
-            Application.Current.MainPage.Navigation.PushAsync(new EditSpendingPage(sel,user));
+            ChartSpendings = new ObservableCollection<Budget>();
+            ChartMonthSpendings = new ObservableCollection<Budget>();
+            ChartWeekSpendings = new ObservableCollection<Budget>();
+            BackCommand = new Command(()=>OnBack());
+            Task.Run(async () => await GetData()).Wait();
 
             
-        }    
-        
+        }
+
+        private void OnBack()
+        {
+            App.Current.MainPage.Navigation.PopAsync();
+        }
+        public void SetChartsVisibility()
+        {
+            if(ChartSpendings.Count>0)
+            {
+                ChartSpendingsVisible = true;
+                ChartSpendingsNoDataLabel = false;
+            }
+            if(ChartSpendings.Count==0)
+            {
+                ChartSpendingsVisible = false;
+                ChartSpendingsNoDataLabel = true;
+            }
+
+            if (ChartMonthSpendings.Count > 0)
+            {
+                ChartMonthSpendingsVisible = true;
+                ChartMonthSpendingsNoDataLabel = false;
+            }
+            if (ChartMonthSpendings.Count == 0)
+            {
+                ChartMonthSpendingsVisible = false;
+                ChartMonthSpendingsNoDataLabel = true;
+            }
+
+            if (ChartWeekSpendings.Count > 0)
+            {
+                ChartWeekSpendingsVisible = true;
+                ChartWeekSpendingsNoDataLabel = false;
+            }
+            if (ChartWeekSpendings.Count == 0)
+            {
+                ChartWeekSpendingsVisible = false;
+                ChartWeekSpendingsNoDataLabel = true;
+            }
+        }
+
+        private async Task GetData()
+        {
+            var list = (await firebaseClient.Child("Budget")
+                .OnceAsync<Budget>()).Select(x =>
+                new Budget
+                {
+                    Id = x.Object.Id,
+                    OwnerId = x.Object.OwnerId,
+                    Title = x.Object.Title,
+                    Category = x.Object.Category,
+                    Description = x.Object.Description,
+                    Value = x.Object.Value,
+                    Date = x.Object.Date,
+                    Direction = x.Object.Direction
+                }).ToList();
+
+
+            for (int i = 0; i < list.Count(); i++)
+            {
+                if (list.ElementAt(i).OwnerId == uid)
+                {
+                    if (list.ElementAt(i).Direction == 0)
+                    {
+                        TotalSpendings+=list.ElementAt(i).Value;
+                        ChartSpendings.Add(list.ElementAt(i));
+                        if (DateTime.Now.Month == list.ElementAt(i).Date.Month)
+                        {
+                            ChartMonthSpendings.Add(list.ElementAt(i));
+                            if (DateTime.Now.Day - list.ElementAt(i).Date.Day <= 7)
+                            {
+                                ChartWeekSpendings.Add(list.ElementAt(i));
+                            }
+                        }
+                    }
+
+                    BudgetValue+=list.ElementAt(i).Value;
+                    if(list.ElementAt(i).Direction == 1)
+                    {
+                        TotalIncome+=list.ElementAt(i).Value;
+                    }
+                }
+            }
+
+            SetChartsVisibility();
+            
+        }
+
+        /*public void OnPropertyChanged(string name)=>
+            PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(name));*/
 
     }
 }

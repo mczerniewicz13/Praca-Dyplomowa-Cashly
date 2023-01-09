@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App4.Pages.CyclicalExpensesPage"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame>
+                <Grid>
+
+                    <ImageButton Source="left.png" 
+                                 BackgroundColor="Transparent" HeightRequest="30"
+                                 HorizontalOptions="Start" Command="{Binding BackCommand}"
+                                     VerticalOptions="Center"/>
+                    <Label Text="Cyclical expenses" FontSize="Title" TextColor="Black" FontAttributes="Bold"
+                           HorizontalOptions="Center" VerticalOptions="Center" />
+                    <ImageButton Source="add.png" 
+                            HorizontalOptions="End"
+                            HeightRequest="30"
+                            BackgroundColor="Transparent"
+                                     VerticalOptions="Center"
+                            
+                            Command="{Binding GoToAddPageCommand}"/>
+                </Grid>
+            </Frame>
+            <CollectionView ItemsSource="{Binding CyclicalExpensesItems}"
+                            SelectionMode="Single"
+                            SelectionChangedCommand="{Binding SelectItemCommand}"
+                            SelectedItem="{Binding SelectedItem}">
+                <CollectionView.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Title"
+                               FontSize="Subtitle"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="1" Text="Cycle"
+                               FontSize="Subtitle"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="2" Text="Value"
+                               FontSize="Subtitle"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <Grid>
+                                <Grid Margin="0,10,0,0" RowSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{Binding Title}"
+                                           FontSize="Subtitle"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="CenterAndExpand"
+                                           VerticalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="1" Text="{Binding Cycle}"
+                                           FontSize="Subtitle"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="CenterAndExpand"
+                                           VerticalOptions="CenterAndExpand"/>
+                                    <Label Grid.Column="2" Text="{Binding Value}"
+                                           HorizontalOptions="CenterAndExpand"
+                                           VerticalOptions="CenterAndExpand"/>
+                                </Grid>
+                            </Grid>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -10,8 +10,9 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="75"/>
-                <RowDefinition Height="75"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
@@ -19,27 +20,37 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Text="Budget"
-                           VerticalOptions="Center"
-                           Margin="20"
-                           TextColor="Black"
-                           FontAttributes="Bold"
-                           FontSize="Title"/>
+                <Frame Grid.ColumnSpan="2">
+                    <Grid>
 
-                <Button Grid.Column="1" Text="+" 
+                        <ImageButton Source="left.png" 
+                                 BackgroundColor="Transparent" HeightRequest="30"
+                                 HorizontalOptions="Start" Command="{Binding BackCommand}"
+                                     VerticalOptions="Center"/>
+                        <Label Text="Budget" FontSize="Title" TextColor="Black" FontAttributes="Bold"
+                           HorizontalOptions="Center" VerticalOptions="Center" />
+                        <ImageButton Source="add.png" 
                             HorizontalOptions="End"
-                            TextColor="Black"
-                            FontAttributes="Bold"
-                            FontSize="Title"
+                            HeightRequest="30"
+                            BackgroundColor="Transparent"
+                                     VerticalOptions="Center"
+                            
                             Command="{Binding GoToAddPageCommand}"/>
+                    </Grid>
+                </Frame>
+                
+
+                
 
             </Grid>
-
-            <Label Grid.Row="1" Text="{Binding BudgetValue}"
-                   FontSize="Title"
+            <Frame Grid.Row="1" CornerRadius="15" Margin="10">
+                <Label  Text="{Binding BudgetValue}"
+                   FontSize="35"
                    FontAttributes="Bold"
-                   TextColor="Black"
+                   TextColor="{Binding BudgetColor}" HorizontalOptions="Center" VerticalOptions="Center"
                    />
+            </Frame>
+            
 
             <ScrollView Grid.Row="2">
                 <CollectionView  ItemsSource="{Binding DatabaseItems}" 
@@ -111,6 +122,8 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </ScrollView>
+            <Button CornerRadius="20" Grid.Row="3" Margin="10" BackgroundColor="LightBlue" 
+                    Text="Cyclical Expenses" FontSize="Subtitle" Command="{Binding CyclicalExpensesCommand}"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

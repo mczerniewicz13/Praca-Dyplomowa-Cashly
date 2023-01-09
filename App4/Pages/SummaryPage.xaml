@@ -1,115 +1,165 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
              x:Class="App4.Pages.SummaryPage"
              NavigationPage.HasNavigationBar="False"
              >
 
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="75"/>
-                <RowDefinition Height="75"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Text="Spendings"
-                           VerticalOptions="Center"
-                           Margin="20"
-                           TextColor="Black"
-                           FontAttributes="Bold"
-                           FontSize="Title"/>
+        <StackLayout>
+           
+            <Frame>
+                <Grid>
+                   
+                    <ImageButton Source="left.png" 
+                                 BackgroundColor="Transparent" HeightRequest="65"
+                                 HorizontalOptions="Start" Command="{Binding BackCommand}"
+                                 VerticalOptions="CenterAndExpand"/>
+                    <Label Text="Statistics" FontSize="Title" TextColor="Black" FontAttributes="Bold"
+                           HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+                </Grid>
+            </Frame>
+            <Frame Margin="10" CornerRadius="10">
+                <StackLayout>
+                    <Label Text="Budget" HorizontalOptions="Center"/>
+                    <Label HorizontalOptions="CenterAndExpand" 
+                           Text="{Binding BudgetValue}" FontSize="45" />
+                </StackLayout>
+            </Frame>
+        <ScrollView >
+            <StackLayout>
 
-                <Button Grid.Column="1" Text="+" 
-                            HorizontalOptions="End"
-                            TextColor="Black"
-                            FontAttributes="Bold"
-                            FontSize="Title"
-                            Command="{Binding GoToAddPageCommand}"/>
-
-            </Grid>
-
-            <Label Grid.Row="1" Text="{Binding BudgetValue}"
-                   FontSize="Title"
-                   FontAttributes="Bold"
-                   TextColor="Black"
-                   />
-
-            <ScrollView Grid.Row="2">
-                <CollectionView  ItemsSource="{Binding DatabaseItems}" 
-                                 SelectionMode="Single"
-                                 SelectionChangedCommand="{Binding SelectItemCommand}"
-                                 SelectedItem="{Binding SelectedItem}"
-                                 x:Name="SpendingColView"
-                                 >
-
-                    <CollectionView.Header>
+                    <Frame CornerRadius="10" Margin="10" HasShadow="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Text="Title"
-                                           FontSize="Subtitle"
-                                           TextColor="Black"
-                                           FontAttributes="Bold"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center"
-                                    BackgroundColor="Transparent"
-                                   />
-                            <Button Grid.Column="1" Text="Category"
-                                           FontSize="Subtitle"
-                                           TextColor="Black"
-                                           FontAttributes="Bold"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center"
-                                     BackgroundColor="Transparent"
-                                    />
-                            <Button Grid.Column="2" Text="Value"
-                               FontSize="Subtitle"
-                                   TextColor="Black"
-                                           FontAttributes="Bold"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center"
-                                     BackgroundColor="Transparent"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="4*"/>
+                                <RowDefinition Height="*"/>
 
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0"
+                           Text="{Binding TotalIncome}" HorizontalOptions="Center" VerticalOptions="Center"
+                           TextColor="LimeGreen" FontSize="40"/>
+                            <Label Grid.Row="0" Grid.Column="1"
+                           Text="{Binding TotalSpendings}" HorizontalOptions="Center" VerticalOptions="Center"
+                           TextColor="IndianRed" FontSize="40"/>
+                            <Label Grid.Row="1" Grid.Column="1"
+                           Text="Total Spendings" HorizontalOptions="Center"/>
+                            <Label Grid.Row="1" Grid.Column="0"
+                           Text="Total Income" HorizontalOptions="Center"/>
                         </Grid>
-                    </CollectionView.Header>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout>
-                                <Grid Margin="0,10,0,0" RowSpacing="8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
+                    </Frame>
+                    <Frame Margin="10" CornerRadius="10">
+                        <StackLayout>
+                        <Label IsVisible="{Binding ChartSpendingsNoDataLabel}" Text="No data yet..." 
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"/>
+                        <chart:SfChart IsVisible="{Binding ChartSpendingsVisible}">
+                            <chart:SfChart.Title>
 
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Text="{Binding Title}"
-                                           FontSize="Subtitle"
-                                           FontAttributes="Bold"
-                                           HorizontalOptions="CenterAndExpand"
-                                           VerticalOptions="CenterAndExpand"/>
-                                    <Label Grid.Column="1" Text="{Binding Category}"
-                                           FontSize="Subtitle"
-                                           FontAttributes="Bold"
-                                           HorizontalOptions="CenterAndExpand"
-                                           VerticalOptions="CenterAndExpand"/>
-                                    <Label Grid.Column="2" Text="{Binding Value}"
-                                           HorizontalOptions="CenterAndExpand"
-                                           VerticalOptions="CenterAndExpand"/>
-                                </Grid>
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </ScrollView>
-        </Grid>
+                                <chart:ChartTitle Text="All spendings in %" TextColor="Gray" FontSize="15"/>
+
+                            </chart:SfChart.Title>
+                            <chart:SfChart.Legend>
+
+                                <chart:ChartLegend DockPosition="Bottom"/>
+
+                            </chart:SfChart.Legend>
+                            
+                            <chart:DoughnutSeries
+                                
+                                ItemsSource="{Binding ChartSpendings}"
+                                XBindingPath="Category"
+                                YBindingPath="Value"
+                                DataMarkerPosition="Outside"
+                                ExplodeAll="True"
+
+                                >
+                                <chart:DoughnutSeries.DataMarker>
+                                    <chart:ChartDataMarker LabelContent="Percentage"/>
+                                </chart:DoughnutSeries.DataMarker>
+                            </chart:DoughnutSeries>
+
+
+                        </chart:SfChart>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Margin="10" CornerRadius="10">
+                        <StackLayout>
+                        <Label IsVisible="{Binding ChartWeekSpendingsNoDataLabel}" Text="No data yet..." 
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"/>
+                        <chart:SfChart IsVisible="{Binding ChartWeekSpendingsVisible}">
+                            <chart:SfChart.Title>
+
+                                <chart:ChartTitle Text="Last week spendings in %" TextColor="Gray" FontSize="15"/>
+
+                            </chart:SfChart.Title>
+                            <chart:SfChart.Legend>
+
+                                <chart:ChartLegend DockPosition="Bottom"/>
+
+                            </chart:SfChart.Legend>
+
+                            <chart:DoughnutSeries
+                                
+                                ItemsSource="{Binding ChartWeekSpendings}"
+                                XBindingPath="Category"
+                                YBindingPath="Value"
+                                DataMarkerPosition="Outside"
+                                ExplodeAll="True"
+
+                                >
+                                <chart:DoughnutSeries.DataMarker>
+                                    <chart:ChartDataMarker LabelContent="Percentage"/>
+                                </chart:DoughnutSeries.DataMarker>
+                            </chart:DoughnutSeries>
+
+
+                        </chart:SfChart>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Margin="10" CornerRadius="10">
+                        <StackLayout>
+                            <Label IsVisible="{Binding ChartMonthSpendingsNoDataLabel}" Text="No data yet..." 
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"/>
+                            <chart:SfChart IsVisible="{Binding ChartMonthSpendingsVisible}">
+                                <chart:SfChart.Title>
+
+                                    <chart:ChartTitle Text="Last month spendings in %" TextColor="Gray" FontSize="15"/>
+
+                                </chart:SfChart.Title>
+                                <chart:SfChart.Legend>
+
+                                    <chart:ChartLegend DockPosition="Bottom"/>
+
+                                </chart:SfChart.Legend>
+
+                                <chart:DoughnutSeries
+                                
+                                ItemsSource="{Binding ChartMonthSpendings}"
+                                XBindingPath="Category"
+                                YBindingPath="Value"
+                                DataMarkerPosition="Outside"
+                                ExplodeAll="True"
+
+                                >
+                                    <chart:DoughnutSeries.DataMarker>
+                                        <chart:ChartDataMarker LabelContent="Percentage"/>
+                                    </chart:DoughnutSeries.DataMarker>
+                                </chart:DoughnutSeries>
+
+
+                            </chart:SfChart>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+        </ScrollView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

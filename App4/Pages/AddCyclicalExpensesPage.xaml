@@ -1,25 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="App4.Pages.AddSpendingPage"
-             xmlns:numberInput="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms" 
-             xmlns:pagemodels="clr-namespace:App4.PageModels" x:DataType="pagemodels:AddSpendingPageModel"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
-             NavigationPage.HasNavigationBar="False"
-             BackgroundColor="White"
-             x:Name="ContentPage1">
-
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:numberInput="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms" xmlns:pagemodels="clr-namespace:App4.PageModels" x:DataType="pagemodels:AddCyclicalExpensesPageModel"
+             x:Class="App4.Pages.AddCyclicalExpensesPage"
+             x:Name="ContentPage1"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        
         <StackLayout>
             <Frame VerticalOptions="CenterAndExpand">
-                <Grid> 
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -78,8 +73,21 @@
                     <Picker Grid.Row="6" Title="Select category..." ItemsSource="{Binding Categories}" 
                              SelectedItem="{Binding SelectedItem}" />
 
-
-                    <Grid Grid.Row="7">
+                    <Picker Grid.Row="7" Title="Cycle..." ItemsSource="{Binding Cycles}"
+                            SelectedItem="{Binding SelectedCycle}"/>
+                    <Grid Grid.Row="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.1*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Grid.Column="0" Color="Gray"
+                                  HorizontalOptions="Start" VerticalOptions="Center"
+                                  IsChecked="{Binding StartNowCheck}"/>
+                        <Label Grid.Column="1" Text="Start now" FontSize="20"
+                               VerticalOptions="Center" HorizontalOptions="Start"/>
+                    </Grid>
+                    
+                    <Grid Grid.Row="9">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -87,7 +95,7 @@
                         <Button Grid.Column="0" Text="Add" Command="{Binding AddCommand}" BackgroundColor="LightGreen"/>
                         <Button Grid.Column="1" Text="Cancel" Command="{Binding CancelCommand}" BackgroundColor="LightPink"/>
                     </Grid>
-                    
+
 
 
                 </Grid>

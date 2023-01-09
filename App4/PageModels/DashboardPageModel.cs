@@ -2,10 +2,14 @@
 using App4.Pages;
 using Firebase.Auth;
 using Firebase.Database;
+using Firebase.Database.Query;
 using FreshMvvm;
 using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -28,6 +32,7 @@ namespace App4.PageModels
         public DashboardPageModel()
         {
             Task.Run(async()=> await GetUserInfo()).Wait();
+            Task.Run(async()=> await CheckCyclical()).Wait();
             //GetUserInfo();
             UserName = user.username;
             BudgetValue = user.budget;
@@ -63,6 +68,113 @@ namespace App4.PageModels
             await GetUserInfo();
             await SetWelcome();
         }*/
+
+        private async Task CheckCyclical()
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("nl-NL");
+            var cyclicalExpenses = (await firebaseClient.Child("CyclicBudget")
+                .OnceAsync<CyclicalBudget>()).Select(x =>
+                new CyclicalBudget
+                {
+                    Id = x.Object.Id,
+                    OwnerId = x.Object.OwnerId,
+                    Title = x.Object.Title,
+                    Category = x.Object.Category,
+                    Description = x.Object.Description,
+                    Value = x.Object.Value,
+                    Date = x.Object.Date,
+                    Direction = x.Object.Direction,
+                    Cycle = x.Object.Cycle,
+                    BeginDate = x.Object.BeginDate,
+                    wasExecuted = x.Object.wasExecuted
+                }).ToList();
+            
+            for (int i = 0; i < cyclicalExpenses.Count; i++)
+            {
+                var tmp = cyclicalExpenses.ElementAt(i);
+                if(tmp != null && tmp.OwnerId == uid)
+                {
+                    if(tmp.wasExecuted == false)
+                    {
+                        if(tmp.Cycle=="Daily")
+                        {
+                            if(tmp.Date.AddDays(1).ToShortDateString() == DateTime.Now.ToShortDateString())
+                            {
+                                tmp.wasExecuted = true;
+                                tmp.Date = DateTime.Now;
+                                await AddCyclical(tmp);
+                            }
+                           
+                        }
+                        if(tmp.Cycle=="Weekly")
+                        {
+                            if(tmp.Date.DayOfWeek==DateTime.Now.DayOfWeek)
+                            {
+                                tmp.Date = DateTime.Now;
+                                tmp.wasExecuted = true;
+                                await AddCyclical(tmp);
+                            }
+                            
+                        }
+                        if(tmp.Cycle=="Monthly")
+                        {
+                            if(tmp.Date.AddDays(30) == DateTime.Now)
+                            {
+                                tmp.Date = DateTime.Now;
+                                tmp.wasExecuted = true;
+                                await AddCyclical(tmp);
+                            }
+                        }
+                    }
+                    if(tmp.wasExecuted==true)
+                    {
+                        if(tmp.Cycle == "Daily")
+                        {
+                            if(tmp.Date.ToShortDateString() != DateTime.Now.ToShortDateString())
+                            {
+                                tmp.Date = DateTime.Now;
+                                await AddCyclical(tmp);
+                            }
+                        }
+                        if(tmp.Cycle == "Weekly")
+                        {
+                            if(tmp.Date.DayOfWeek != DateTime.Now.DayOfWeek)
+                            {
+                                tmp.wasExecuted = false;
+                            }
+                        }
+                        if(tmp.Cycle == "Monthly")
+                        {
+                            if(tmp.Date.ToShortDateString() != DateTime.Now.ToShortDateString())
+                            {
+                                tmp.wasExecuted = false;
+                            }
+                        }
+                    }
+                }
+                var tmpspd = (await firebaseClient
+                .Child("CyclicBudget").OnceAsync<CyclicalBudget>())
+                .FirstOrDefault(s => s.Object.Id == tmp.Id);
+                await firebaseClient.Child("CyclicBudget").Child(tmpspd.Key).PutAsync(tmp);
+            }
+        }
+
+        private async Task AddCyclical(CyclicalBudget cb)
+        {
+            var spd = new Budget
+            {
+                Id = cb.Id,
+                OwnerId = cb.OwnerId,
+                Title = cb.Title,
+                Value = cb.Value,
+                Date = cb.Date,
+                Description = cb.Description,
+                Direction = cb.Direction,
+                Category = cb.Category
+            };
+            BudgetValue += cb.Value;
+            await firebaseClient.Child("Budget").PostAsync(spd);
+        }
         private async Task GetUserInfo()
         {
             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebAPIkey));

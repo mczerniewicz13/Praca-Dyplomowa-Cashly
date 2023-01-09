@@ -47,7 +47,9 @@ namespace App4.PageModels
 
         public Command GoToAddPageCommand { get; set; }
         public Command SelectItemCommand { get; set; }
-
+        public Command BackCommand { get; set; }
+        public Command CyclicalExpensesCommand { get; set; }
+        public Color BudgetColor { get; set; }
         private string uid = Preferences.Get("AuthUserID", "");
 
         public BudgetPageModel(CollectionView colView, CashlyUser user)
@@ -56,6 +58,8 @@ namespace App4.PageModels
             DatabaseItems = new ObservableCollection<Budget>();
             GoToAddPageCommand = new Command(() => OpenAddPageAsync());
             SelectItemCommand = new Command(() => OnSelectionAsync());
+            BackCommand = new Command(() => OnBack());
+            CyclicalExpensesCommand = new Command(()=> CyclicalExpensesAction());
             Spendings = new List<Budget>();
             Task.Run(async () => await GetBudgetList()).Wait();
             Task.Run(async () => await SetBudget()).Wait();
@@ -73,10 +77,35 @@ namespace App4.PageModels
                 });
             user.budget = BudgetValue;
             user.UpdateBudget();
-            
+            if (BudgetValue>0)
+            {
+                BudgetColor = Color.LightGreen;
+            }
+            if(BudgetValue==0)
+            {
+                BudgetColor = Color.LightGray;
+            }
+            if(BudgetValue<0)
+            {
+                BudgetColor = Color.LightPink;
+            }
 
         }
+        
+        private void CyclicalExpensesAction()
+        {
+            App.Current.MainPage.Navigation.PushAsync(new CyclicalExpensesPage(user));
+        }
 
+
+        private void OnBack()
+        {
+            var navstack = App.Current.MainPage.Navigation.NavigationStack[0];
+            App.Current.MainPage.Navigation.RemovePage(navstack);
+            App.Current.MainPage.Navigation.InsertPageBefore(new DashboardPage(), App.Current.MainPage.Navigation.NavigationStack.Last());
+            App.Current.MainPage.Navigation.PopAsync();
+
+        }
         private async Task SetBudget()
         {
             BudgetValue = 0;
@@ -119,11 +148,11 @@ namespace App4.PageModels
         {
             await Application.Current.MainPage.Navigation.PushAsync(new AddSpendingPage(user));
             //var pageBefore = App.Current.MainPage.Navigation.NavigationStack.Count - 2;
-            var navStack = App.Current.MainPage.Navigation.NavigationStack[0];
-            App.Current.MainPage.Navigation.RemovePage(navStack);
-            App.Current.MainPage.Navigation
-                .InsertPageBefore(new DashboardPage(),
-                App.Current.MainPage.Navigation.NavigationStack.Last());
+            //var navStack = App.Current.MainPage.Navigation.NavigationStack[0];
+           // App.Current.MainPage.Navigation.RemovePage(navStack);
+            //App.Current.MainPage.Navigation
+               // .InsertPageBefore(new DashboardPage(),
+                //App.Current.MainPage.Navigation.NavigationStack.Last());
 
         }
 

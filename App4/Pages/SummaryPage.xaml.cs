@@ -21,7 +21,7 @@ namespace App4.Pages
         public SummaryPage(CashlyUser user)
         {
             InitializeComponent();
-            BindingContext = new SummaryPageModel(SpendingColView,user);
+            BindingContext = new SummaryPageModel(user);
         }
     }
 }

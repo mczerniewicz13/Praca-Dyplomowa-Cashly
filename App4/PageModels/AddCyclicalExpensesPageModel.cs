@@ -1,7 +1,5 @@
 ﻿using App4.Models;
-using App4.PageModels.Base;
 using App4.Pages;
-using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Database.Query;
 using FreshMvvm;
@@ -9,47 +7,43 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace App4.PageModels
 {
-
-    public class AddSpendingPageModel : FreshBasePageModel
+    public class AddCyclicalExpensesPageModel:FreshBasePageModel
     {
         FirebaseClient firebaseClient = new FirebaseClient("https://cashly-9d2ac-default-rtdb.europe-west1.firebasedatabase.app/");
-        FirebaseAuthProvider authProvider { get; set; }
-        private string WebAPIkey = "AIzaSyD8QwWxxXeotah-wMNNQsCwipOnD7DL_3U";
 
-        public List<string> Categories { get; set; }
+        public string state { get; set; }
         public string SpendingTitle { get; set; }
         public string SpendingDescription { get; set; }
         public double SpendingValue { get; set; }
+        public bool StartNowCheck { get; set; }
         public DateTime SpendingDate { get; set; }
-        public Guid id { get; set; }
-
+        public DateTime AddDate { get; set; }
+        public string SelectedCycle { get; set; }
+        public List<string> Cycles { get; set; }
+        public CashlyUser user { get; set; }
+        public List<string> Categories { get; set; }
         public string SelectedItem { get; set; }
-        public string AddText { get; set; }
-        public string state { get; set; }
         public Command AddCommand { get; set; }
         public Command CancelCommand { get; set; }
-        public CashlyUser user { get; set; }
-        public AddSpendingPageModel(CashlyUser user)
+        public AddCyclicalExpensesPageModel(CashlyUser user)
         {
             this.user = user;
-            AddText = "Add Spending";
-            Categories = new List<string>();
-            InitializeCategories();
-            AddCommand = new Command(() => AddAction());
-            CancelCommand = new Command(() => CancelAction());
-            //CategorySelected = new Command(() => CatSelAction());
+            AddDate = DateTime.Now;
             SpendingDate = DateTime.Now;
-            authProvider  = new FirebaseAuthProvider(new FirebaseConfig(WebAPIkey));
+            Categories = new List<string>();
+            Cycles = new List<string>();
+            InitializeCategories();
+            InitializeCycles();
+            AddCommand = new Command(()=>AddAction());
+            CancelCommand = new Command(()=>CancelAction());
+            StartNowCheck = false;
         }
 
-
-  
         private void InitializeCategories()
         {
             Categories.Add("Groceries");
@@ -72,18 +66,15 @@ namespace App4.PageModels
             Categories.Add("Other");
         }
 
-        private void CancelAction()
+        private void InitializeCycles()
         {
-
-            Application.Current.MainPage.Navigation.PopAsync();
+            Cycles.Add("Daily");
+            Cycles.Add("Weekly");
+            Cycles.Add("Monthly");
         }
+
         private void AddAction()
         {
-
-            /*var title = SpendingTitle.Text;
-            var description = SpendingDescription.Text;
-            var value = Convert.ToDouble(SpendingValue.Value.ToString());
-            var date = SpendingDate.Date;*/
             var multiplier = -1;
             var dir = 0;
             if (state == "1")
@@ -91,38 +82,63 @@ namespace App4.PageModels
                 dir = 1;
                 multiplier = 1;
             }
-                
+
 
             var uid = Preferences.Get("AuthUserID", "");
-            var spd = new Budget
+            var cyclic = new CyclicalBudget
             {
                 Id = FirebaseKeyGenerator.Next().ToString(),
                 OwnerId = uid,
                 Title = SpendingTitle,
                 Description = SpendingDescription,
                 Value = SpendingValue * multiplier,
-                Date = SpendingDate,
+                Date = AddDate,
                 Category = SelectedItem,
-                Direction = dir
+                Direction = dir,
+                BeginDate = SpendingDate,
+                Cycle = SelectedCycle,
+                wasExecuted = false
+
             };
-            firebaseClient.Child("Budget").PostAsync(spd);
+            if (StartNowCheck)
+            {
+                cyclic.wasExecuted = true;
+                var spd = new Budget
+                {
+                    Id=FirebaseKeyGenerator.Next().ToString(),
+                    OwnerId=uid,
+                    Title = SpendingTitle,
+                    Description= SpendingDescription,
+                    Value= SpendingValue * multiplier,
+                    Date= AddDate,
+                    Category= SelectedItem,
+                    Direction= dir,
+                };
+                firebaseClient.Child("Budget").PostAsync(spd);
+            }
+            firebaseClient.Child("CyclicBudget").PostAsync(cyclic);
             SpendingTitle = "";
             SpendingDescription = "";
             SpendingValue = 0;
             SpendingDate = DateTime.Now;
+            
             /*SpendingTitle.Text = "";
             SpendingDescription.Text = "";
             SpendingDate.Date = DateTime.Now;
             SpendingValue.Value = 0;*/
             var pageBefore = App.Current.MainPage.Navigation.NavigationStack.Count - 2;
             var navStack = App.Current.MainPage.Navigation.NavigationStack[pageBefore];
-            var firstPage = App.Current.MainPage.Navigation.NavigationStack[0];
             App.Current.MainPage.Navigation.RemovePage(navStack);
-            App.Current.MainPage.Navigation.RemovePage(firstPage);
-            App.Current.MainPage.Navigation.InsertPageBefore(new DashboardPage(), App.Current.MainPage.Navigation.NavigationStack.Last());
-            App.Current.MainPage.Navigation.InsertPageBefore(new BudgetPage(user), App.Current.MainPage.Navigation.NavigationStack.Last());
+            
+            App.Current.MainPage.Navigation.InsertPageBefore(new CyclicalExpensesPage(user), App.Current.MainPage.Navigation.NavigationStack.Last());
             Application.Current.MainPage.Navigation.PopAsync();
-        }
-    }
 
+        }
+
+        private void CancelAction()
+        {
+            App.Current.MainPage.Navigation.PopAsync();
+        }
+
+    }
 }

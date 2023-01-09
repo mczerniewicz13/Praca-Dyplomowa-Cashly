@@ -20,12 +20,6 @@
 
             </Frame>
 
-
-
-
-
-
-
             <Grid Margin="20" VerticalOptions="EndAndExpand">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -44,7 +38,7 @@
 
                 <buttons:SfButton Grid.Row="1"
                     x:Name="SummaryBtn"
-                    Text="Spendings" FontSize="20" TextColor="Black"
+                    Text="Statistics" FontSize="20" TextColor="Black"
                     BackgroundColor="LightBlue"
                     ImageSource="payment.png" ImageAlignment="Top" ImageWidth="40" 
                     Command="{Binding SpendingsClicked}" CornerRadius="20" ShowIcon="True"

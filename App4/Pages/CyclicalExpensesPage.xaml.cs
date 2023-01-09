@@ -1,4 +1,5 @@
-﻿using App4.PageModels;
+﻿using App4.Models;
+using App4.PageModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,12 @@ using Xamarin.Forms.Xaml;
 namespace App4.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DashboardPage : ContentPage
+    public partial class CyclicalExpensesPage : ContentPage
     {
-        public DashboardPage()
+        public CyclicalExpensesPage(CashlyUser user)
         {
             InitializeComponent();
-            BindingContext=new DashboardPageModel();
+            BindingContext = new CyclicalExpensesPageModel(user);
         }
     }
 }
