@@ -1,14 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:pagemodels="clr-namespace:App4.PageModels" x:DataType="pagemodels:ProfilePageModel"
-             x:Class="App4.Pages.ProfilePage"> 
+             x:Class="App4.Pages.ProfilePage"
+             NavigationPage.HasNavigationBar="False"> 
     <ContentPage.Content>
 
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <Button Text="Logout" Command="{Binding LogOutCommand}"/>
+            <Frame>
+                <Grid>
+
+                    <ImageButton Source="left.png" 
+                                 BackgroundColor="Transparent" HeightRequest="35"
+                                 HorizontalOptions="Start" Command="{Binding BackCommand}"
+                                 VerticalOptions="CenterAndExpand"/>
+                    <Label Text="Profile" FontSize="Title" TextColor="Black" FontAttributes="Bold"
+                           HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+                </Grid>
+            </Frame>
+            <Frame Margin="10" CornerRadius="10">
+                <StackLayout>
+                    <Grid RowSpacing="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" 
+                            Text="Username:" VerticalOptions="CenterAndExpand"/>
+                        <Button Grid.Row="0" Grid.Column="1" 
+                            Text="{Binding Username}"
+                                BackgroundColor="Transparent"
+                                Command="{Binding UsernameClicked}"
+                                VerticalOptions="CenterAndExpand"
+                                />
+                        
+                        <Label Grid.Row="1" Grid.Column="0" 
+                            Text="Email:" VerticalOptions="CenterAndExpand"/>
+                        <Button Grid.Row="1" Grid.Column="1" 
+                            Text="{Binding Email}"
+                                BackgroundColor="Transparent"
+                                Command="{Binding EmailClicked}"
+                                VerticalOptions="CenterAndExpand"/>
+                        
+                        <Label Grid.Row="2" Grid.Column="0" 
+                            Text="Password:" VerticalOptions="CenterAndExpand"/>
+                        <Button Grid.Row="2" Grid.Column="1" 
+                            Text="{Binding Password}"
+                                BackgroundColor="Transparent"
+                                Command="{Binding PasswordClicked}"
+                                VerticalOptions="CenterAndExpand"/>
+                        
+                        <Label Grid.Row="3" Grid.Column="0" 
+                            Text="Invite code:" VerticalOptions="CenterAndExpand"/>
+                        <Button Grid.Row="3" Grid.Column="1" 
+                            Text="{Binding InviteCode}"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="CenterAndExpand"
+                                Command="{Binding InviteCodeClicked}"/>
+                        
+                        <Label Grid.Row="4" Grid.Column="0" 
+                            Text="Budget:" VerticalOptions="CenterAndExpand"/>
+                        <Button Grid.Row="4" Grid.Column="1" 
+                            Text="{Binding Budget}"
+                                BackgroundColor="Transparent"
+                                />
+
+
+
+
+                    </Grid>
+                </StackLayout>
+            </Frame>
+            <Button Text="Logout" Command="{Binding LogOutCommand}" CornerRadius="15" Margin="10"
+                    VerticalOptions="EndAndExpand"/>
             
         </StackLayout>
             

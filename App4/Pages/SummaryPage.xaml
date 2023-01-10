@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
+             xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms" xmlns:pagemodels="clr-namespace:App4.PageModels" xmlns:xct="http://xamarin.com/schemas/2020/toolkit" x:DataType="pagemodels:SummaryPageModel"
              x:Class="App4.Pages.SummaryPage"
              NavigationPage.HasNavigationBar="False"
              >
@@ -13,7 +13,7 @@
                 <Grid>
                    
                     <ImageButton Source="left.png" 
-                                 BackgroundColor="Transparent" HeightRequest="65"
+                                 BackgroundColor="Transparent" HeightRequest="50"
                                  HorizontalOptions="Start" Command="{Binding BackCommand}"
                                  VerticalOptions="CenterAndExpand"/>
                     <Label Text="Statistics" FontSize="Title" TextColor="Black" FontAttributes="Bold"
@@ -55,22 +55,22 @@
                     </Frame>
                     <Frame Margin="10" CornerRadius="10">
                         <StackLayout>
-                        <Label IsVisible="{Binding ChartSpendingsNoDataLabel}" Text="No data yet..." 
+                            <Label IsVisible="{Binding ChartSpendingsNoDataLabel}" Text="No data yet..." 
                                VerticalOptions="CenterAndExpand"
                                HorizontalOptions="CenterAndExpand"/>
-                        <chart:SfChart IsVisible="{Binding ChartSpendingsVisible}">
-                            <chart:SfChart.Title>
+                            <chart:SfChart IsVisible="{Binding ChartSpendingsVisible}">
+                                <chart:SfChart.Title>
 
-                                <chart:ChartTitle Text="All spendings in %" TextColor="Gray" FontSize="15"/>
+                                    <chart:ChartTitle Text="All spendings in %" TextColor="Gray" FontSize="15"/>
 
-                            </chart:SfChart.Title>
-                            <chart:SfChart.Legend>
+                                </chart:SfChart.Title>
+                                <chart:SfChart.Legend>
 
-                                <chart:ChartLegend DockPosition="Bottom"/>
+                                    <chart:ChartLegend DockPosition="Bottom"/>
 
-                            </chart:SfChart.Legend>
-                            
-                            <chart:DoughnutSeries
+                                </chart:SfChart.Legend>
+
+                                <chart:DoughnutSeries
                                 
                                 ItemsSource="{Binding ChartSpendings}"
                                 XBindingPath="Category"
@@ -79,59 +79,35 @@
                                 ExplodeAll="True"
 
                                 >
-                                <chart:DoughnutSeries.DataMarker>
-                                    <chart:ChartDataMarker LabelContent="Percentage"/>
-                                </chart:DoughnutSeries.DataMarker>
-                            </chart:DoughnutSeries>
+                                    <chart:DoughnutSeries.DataMarker>
+                                        <chart:ChartDataMarker LabelContent="Percentage"/>
+                                    </chart:DoughnutSeries.DataMarker>
+                                </chart:DoughnutSeries>
 
 
-                        </chart:SfChart>
+                            </chart:SfChart>
                         </StackLayout>
+
                     </Frame>
                     <Frame Margin="10" CornerRadius="10">
                         <StackLayout>
-                        <Label IsVisible="{Binding ChartWeekSpendingsNoDataLabel}" Text="No data yet..." 
-                               VerticalOptions="CenterAndExpand"
-                               HorizontalOptions="CenterAndExpand"/>
-                        <chart:SfChart IsVisible="{Binding ChartWeekSpendingsVisible}">
-                            <chart:SfChart.Title>
-
-                                <chart:ChartTitle Text="Last week spendings in %" TextColor="Gray" FontSize="15"/>
-
-                            </chart:SfChart.Title>
-                            <chart:SfChart.Legend>
-
-                                <chart:ChartLegend DockPosition="Bottom"/>
-
-                            </chart:SfChart.Legend>
-
-                            <chart:DoughnutSeries
-                                
-                                ItemsSource="{Binding ChartWeekSpendings}"
-                                XBindingPath="Category"
-                                YBindingPath="Value"
-                                DataMarkerPosition="Outside"
-                                ExplodeAll="True"
-
-                                >
-                                <chart:DoughnutSeries.DataMarker>
-                                    <chart:ChartDataMarker LabelContent="Percentage"/>
-                                </chart:DoughnutSeries.DataMarker>
-                            </chart:DoughnutSeries>
-
-
-                        </chart:SfChart>
-                        </StackLayout>
-                    </Frame>
-                    <Frame Margin="10" CornerRadius="10">
-                        <StackLayout>
-                            <Label IsVisible="{Binding ChartMonthSpendingsNoDataLabel}" Text="No data yet..." 
+                            <Picker ItemsSource="{Binding ChartMonths}" 
+                                    SelectedItem="{Binding SelectedChartMonth}"
+                                    SelectedIndex="{Binding SelectedMonthIndex}"
+                                    Title="Select a month...">
+                                <Picker.Behaviors>
+                                    <xct:EventToCommandBehavior
+                                        EventName="SelectedIndexChanged"
+                                        Command="{Binding ChartMonthSelectionCommand}"/>
+                                </Picker.Behaviors>
+                            </Picker>
+                            <Label IsVisible="{Binding ChartSpendingsNoDataLabel}" Text="No data yet..." 
                                VerticalOptions="CenterAndExpand"
                                HorizontalOptions="CenterAndExpand"/>
                             <chart:SfChart IsVisible="{Binding ChartMonthSpendingsVisible}">
                                 <chart:SfChart.Title>
 
-                                    <chart:ChartTitle Text="Last month spendings in %" TextColor="Gray" FontSize="15"/>
+                                    <chart:ChartTitle Text="{Binding ChartTitle}" TextColor="Gray" FontSize="15"/>
 
                                 </chart:SfChart.Title>
                                 <chart:SfChart.Legend>
@@ -157,7 +133,9 @@
 
                             </chart:SfChart>
                         </StackLayout>
+
                     </Frame>
+                    <Label IsVisible="false" x:Name="labelSelection" Text="}"/>
                 </StackLayout>
         </ScrollView>
         </StackLayout>

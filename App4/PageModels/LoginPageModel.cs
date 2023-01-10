@@ -34,6 +34,7 @@ namespace App4.PageModels
             try
             {
                 var auth = await authProvider.SignInWithEmailAndPasswordAsync(Username, Password);
+                var userCredentials = auth.User;
                 var content = await auth.GetFreshAuthAsync();
                 var serialized = JsonConvert.SerializeObject(content);
                 Preferences.Set("MyFirebaseRefreshToken", serialized);

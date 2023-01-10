@@ -160,12 +160,12 @@ namespace App4.PageModels
         {
             var sel = SelectedItem;
             Application.Current.MainPage.Navigation.PushAsync(new EditSpendingPage(sel,user));
-            //var pageBefore = App.Current.MainPage.Navigation.NavigationStack.Count - 2;
+            /*//var pageBefore = App.Current.MainPage.Navigation.NavigationStack.Count - 2;
             var navStack = App.Current.MainPage.Navigation.NavigationStack[0];
             App.Current.MainPage.Navigation.RemovePage(navStack);
             App.Current.MainPage.Navigation
                 .InsertPageBefore(new DashboardPage(),
-                App.Current.MainPage.Navigation.NavigationStack.Last());
+                App.Current.MainPage.Navigation.NavigationStack.Last());*/
 
 
 
